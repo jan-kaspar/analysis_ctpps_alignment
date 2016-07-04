@@ -16,7 +16,9 @@ void InitInputFiles()
 	std::string prefix = "/afs/cern.ch/work/j/jkaspar/software/ctpps/integration/production/CMSSW_8_1_0_pre8/user/reconstruction/work_dir/multiple_runs/";
 	prefix += "10077/";
 
-	for (int idx = 0; idx <= 10; ++idx)
+	// TODO
+	//for (int idx = 0; idx <= 10; ++idx)
+	for (int idx = 0; idx <= 9; ++idx)
 	{
 		char buf[100];
 		sprintf(buf, "%i", idx);
