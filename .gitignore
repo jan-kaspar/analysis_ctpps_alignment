@@ -1,0 +1,9 @@
+*.swp
+*.swo
+
+*.root
+*.pdf
+*.log_*
+*.log
+
+.*
