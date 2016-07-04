@@ -154,9 +154,11 @@ int main()
 	unsigned int ev_count = 0;
 	for (ev.toBegin(); ! ev.atEnd(); ++ev)
 	{
+		/*
 		if (ev_count > 1000000)
 			break;
 		ev_count++;
+		*/
 
 		// default track data
 		TrackData tr_L_1_F;
