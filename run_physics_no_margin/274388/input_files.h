@@ -13,7 +13,7 @@ void InitInputFiles()
 
 	input_files.clear();
 
-	std::string prefix = "/afs/cern.ch/work/j/jkaspar/software/ctpps/production/CMSSW_8_0_12/user/reconstruction/work_dir/multiple_runs_3/";
+	std::string prefix = "root://eostotem.cern.ch//eos/totem/data/ctpps/reconstruction/version3/multiple_runs_3/";
 	prefix += "274388/";
 
 	for (int idx = 0; idx <= 19; ++idx)
