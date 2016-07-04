@@ -13,13 +13,14 @@ void InitInputFiles()
 
 	input_files.clear();
 
-	// 2016_04_20_fill4828
+	std::string prefix = "/afs/cern.ch/work/j/jkaspar/software/ctpps/integration/production/CMSSW_8_1_0_pre8/user/reconstruction/work_dir/multiple_runs/";
+	prefix += "10082/";
 
-	std::string prefix = "root://eostotem.cern.ch//eos/totem/user/j/jkaspar/reco/alignment_sr_el/";
-
-	//for (std::string evb : { "EVB11_1", "EVB11_2", "EVB12_1", "EVB12_2", "EVB13_1", "EVB13_2", "EVB14_1", "EVB14_2", "EVB15_1", "EVB15_2" })
-	for (std::string evb : { "EVB11_1" })
+	for (int idx = 0; idx <= 2; ++idx)
 	{
-		input_files.push_back(prefix + "10082_" + evb + "_ntuple.root");
+		char buf[100];
+		sprintf(buf, "%i", idx);
+
+		input_files.push_back(prefix + buf + "/reco.root");
 	}
 }
