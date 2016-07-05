@@ -140,6 +140,11 @@ void DoMatch(TH1D *h_test, const SelectionRange &r_test, TH1D *h_ref, const Sele
 	h_test_bef->Draw("same");
 	h_test_aft->Draw("same");
 	h_cmp->Write();
+
+	TGraph *g_results = new TGraph();
+	g_results->SetName("g_results");
+	g_results->SetPoint(0, 0, sh_best);
+	g_results->Write();
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -163,10 +168,10 @@ int main()
 	map<string, SelectionRange> ref_ranges;
 
 	ref_ranges.clear();
-	ref_ranges["L_1_F"] = SelectionRange(3.5, 11.0);
-	ref_ranges["L_1_N"] = SelectionRange(3.7, 10.5);
-	ref_ranges["R_1_N"] = SelectionRange(2.0, 10.0);
-	ref_ranges["R_1_F"] = SelectionRange(2.0, 10.0);
+	ref_ranges["L_1_F"] = SelectionRange(3.7, 11.0);
+	ref_ranges["L_1_N"] = SelectionRange(3.8, 10.5);
+	ref_ranges["R_1_N"] = SelectionRange(2.5, 10.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0,  9.5);
 	refInfo.push_back(ReferenceInfo("10077", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10077/", ref_ranges));
 
 	ref_ranges.clear();
