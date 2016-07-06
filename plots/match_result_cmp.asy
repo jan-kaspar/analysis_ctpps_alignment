@@ -8,6 +8,12 @@ string datasets[] = {
 	"run_physics_margin/274241",
 	"run_physics_no_margin/274244",
 	"run_physics_no_margin/274388",
+	"run_physics_no_margin/274958",
+	"run_physics_no_margin/274969",
+	"run_physics_no_margin/275125",
+	"run_physics_no_margin/275310",
+	"run_physics_no_margin/275376",
+	"run_physics_no_margin/275836",
 };
 
 string ref_label[];
