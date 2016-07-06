@@ -10,7 +10,13 @@ string datasets[] = {
 	"run_physics_no_margin/274388",
 };
 
-string reference = "10077";
+string ref_label[];
+pen ref_pen[];
+real ref_offset[];
+
+ref_label.push("10077"); ref_pen.push(blue); ref_offset.push(-0.1);
+ref_label.push("10079"); ref_pen.push(red); ref_offset.push(-0.0);
+ref_label.push("10081"); ref_pen.push(heavygreen); ref_offset.push(+0.1);
 
 string rps[] = {
 	"L_1_F",
@@ -38,20 +44,26 @@ for (int rpi : rps.keys)
 	real S1=0, Sbsh=0;
 	for (int dsi : datasets.keys)
 	{
-		RootGetObject(topDir + datasets[dsi]+"/match.root", rps[rpi] + "/" + reference + "/g_results");
-		real ax[] = { 0. };
-		real ay[] = { 0. };
-		robj.vExec("GetPoint", 0, ax, ay);
-
-		real bsh = ay[0] * 0.1;	// index to mm
-		real bsh_unc = 0.05;
+		for (int ri : ref_label.keys)
+		{
+			RootGetObject(topDir + datasets[dsi]+"/match.root", rps[rpi] + "/" + ref_label[ri] + "/g_results");
+			real ax[] = { 0. };
+			real ay[] = { 0. };
+			robj.vExec("GetPoint", 1, ax, ay);
 	
-		//limits((2, 0), (15, 3), Crop);
-		draw((dsi, bsh), mCi+2pt+red);
-		draw((dsi, bsh-bsh_unc)--(dsi, bsh+bsh_unc), red);
+			real bsh = ay[0];
+			real bsh_unc = 0.025;
 
-		S1 += 1.;
-		Sbsh += bsh;
+			real x = dsi + ref_offset[ri];
+
+			pen p = ref_pen[ri];
+		
+			draw((x, bsh), mCi+2pt+p);
+			draw((x, bsh-bsh_unc)--(x, bsh+bsh_unc), p);
+	
+			S1 += 1.;
+			Sbsh += bsh;
+		}
 	}
 
 	real bsh_mean = Sbsh / S1;

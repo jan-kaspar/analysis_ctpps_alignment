@@ -46,9 +46,12 @@ void DoMatch(TH1D *h_test, const SelectionRange &r_test, TH1D *h_ref, const Sele
 	TGraph *g_n_bins = new TGraph(); g_n_bins->SetName("g_n_bins"); g_n_bins->SetTitle(";sh;S2 / N");
 	TGraph *g_chi_sq_norm = new TGraph(); g_chi_sq_norm->SetName("g_chi_sq_norm"); g_chi_sq_norm->SetTitle(";sh;N");
 
+	// determine step
+	double step = h_test->GetBinWidth(1);
+
 	// shift range
-	int sh_min = -50;
-	int sh_max = +50;
+	int sh_min = -5. / step;
+	int sh_max = +5. / step;
 
 	double S2_norm_best = 1E1000;
 	int sh_best = 0;
@@ -144,6 +147,7 @@ void DoMatch(TH1D *h_test, const SelectionRange &r_test, TH1D *h_ref, const Sele
 	TGraph *g_results = new TGraph();
 	g_results->SetName("g_results");
 	g_results->SetPoint(0, 0, sh_best);
+	g_results->SetPoint(1, 0, sh_best * step);
 	g_results->Write();
 }
 
@@ -175,11 +179,27 @@ int main()
 	refInfo.push_back(ReferenceInfo("10077", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10077/", ref_ranges));
 
 	ref_ranges.clear();
+	ref_ranges["L_1_F"] = SelectionRange(4.0, 11.0);
+	ref_ranges["L_1_N"] = SelectionRange(4.4, 11.0);
+	ref_ranges["R_1_N"] = SelectionRange(3.0, 10.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 10.0);
+	refInfo.push_back(ReferenceInfo("10079", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10079/", ref_ranges));
+
+	ref_ranges.clear();
+	ref_ranges["L_1_F"] = SelectionRange(4.0, 11.0);
+	ref_ranges["L_1_N"] = SelectionRange(4.4, 11.0);
+	ref_ranges["R_1_N"] = SelectionRange(3.0, 10.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 10.0);
+	refInfo.push_back(ReferenceInfo("10081", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10081/", ref_ranges));
+
+	/*
+	ref_ranges.clear();
 	ref_ranges["L_1_F"] = SelectionRange(9.2, 15.5);
 	ref_ranges["L_1_N"] = SelectionRange(7.2, 13.4);
 	ref_ranges["R_1_N"] = SelectionRange(7.2, 15.0);
 	ref_ranges["R_1_F"] = SelectionRange(6.4, 14.0);
 	refInfo.push_back(ReferenceInfo("274241", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_physics_margin/274241", ref_ranges));
+	*/
 
 	// get input
 	TFile *f_in = new TFile("distributions.root");

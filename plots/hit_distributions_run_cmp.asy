@@ -10,8 +10,8 @@ string datasets[] = {
 	"run_alignment/10081",
 	"run_alignment/10082",
 
-	"run_physics/with_margin",
-	"run_physics/no_margin",
+//	"run_physics/with_margin",
+//	"run_physics/no_margin",
 };
 
 string rps[] = {

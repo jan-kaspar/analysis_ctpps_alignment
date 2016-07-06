@@ -131,10 +131,10 @@ int main()
 	TProfile *p_x_R_1_F_vs_x_R_1_N = new TProfile("p_x_R_1_F_vs_x_R_1_N", ";x_R_1_N;x_R_1_F", 100, 0., 20.);
 	TH1D *h_q_cut2 = new TH1D("h_q_cut2", ";cq2", 100, -2., 2.);
 
-	TH2D *h2_y_vs_x_L_1_F_sel = new TH2D("h2_y_vs_x_L_1_F_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_L_1_N_sel = new TH2D("h2_y_vs_x_L_1_N_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_R_1_N_sel = new TH2D("h2_y_vs_x_R_1_N_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_R_1_F_sel = new TH2D("h2_y_vs_x_R_1_F_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_L_1_F_sel = new TH2D("h2_y_vs_x_L_1_F_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_L_1_N_sel = new TH2D("h2_y_vs_x_L_1_N_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_R_1_N_sel = new TH2D("h2_y_vs_x_R_1_N_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_R_1_F_sel = new TH2D("h2_y_vs_x_R_1_F_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
 
 	Profile p_y_vs_x_L_1_F_sel("L_1_F", h2_y_vs_x_L_1_F_sel);
 	Profile p_y_vs_x_L_1_N_sel("L_1_N", h2_y_vs_x_L_1_N_sel);
