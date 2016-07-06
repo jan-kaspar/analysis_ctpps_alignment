@@ -13,12 +13,10 @@ void InitInputFiles()
 
 	input_files.clear();
 
-	std::string prefix = "/afs/cern.ch/work/j/jkaspar/software/ctpps/integration/production/CMSSW_8_1_0_pre8/user/reconstruction/work_dir/multiple_runs/";
+	std::string prefix = "root://eostotem.cern.ch//eos/totem/data/ctpps/reconstruction/alignment_run_version1/";
 	prefix += "10077/";
 
-	// TODO
-	//for (int idx = 0; idx <= 10; ++idx)
-	for (int idx = 0; idx <= 9; ++idx)
+	for (int idx = 0; idx <= 10; ++idx)
 	{
 		char buf[100];
 		sprintf(buf, "%i", idx);
