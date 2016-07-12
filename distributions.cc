@@ -8,6 +8,9 @@
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TProfile.h"
+#include "TF1.h"
+#include "TGraph.h"
+#include "TCanvas.h"
 
 #include "DataFormats/FWLite/interface/Handle.h"
 #include "DataFormats/FWLite/interface/ChainEvent.h"
@@ -103,6 +106,36 @@ struct TrackData
 };
 
 //----------------------------------------------------------------------------------------------------
+
+void WriteCutPlot(TH2D *h, double a, double c, double si, const string &label)
+{
+	TCanvas *canvas = new TCanvas();
+	canvas->SetName(label.c_str());
+	canvas->SetLogz(1);
+
+	h->Draw("colz");
+
+	double x_min = -20.;
+	double x_max = +20.;
+
+	TGraph *g_up = new TGraph();
+	g_up->SetName("g_up");
+	g_up->SetPoint(0, x_min, -a*x_min - c + n_si * si);
+	g_up->SetPoint(1, x_max, -a*x_max - c + n_si * si);
+	g_up->SetLineColor(1);
+	g_up->Draw("l");
+
+	TGraph *g_down = new TGraph();
+	g_down->SetName("g_down");
+	g_down->SetPoint(0, x_min, -a*x_min - c - n_si * si);
+	g_down->SetPoint(1, x_max, -a*x_max - c - n_si * si);
+	g_down->SetLineColor(1);
+	g_down->Draw("l");
+
+	canvas->Write();
+}
+
+//----------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------
 
 int main()
@@ -125,11 +158,23 @@ int main()
 
 	TH2D *h2_x_L_1_F_vs_x_L_1_N = new TH2D("h2_x_L_1_F_vs_x_L_1_N", ";x_L_1_N;x_L_1_F", 100, 0., 20., 100, 0., 20.);
 	TProfile *p_x_L_1_F_vs_x_L_1_N = new TProfile("p_x_L_1_F_vs_x_L_1_N", ";x_L_1_N;x_L_1_F", 100, 0., 20.);
-	TH1D *h_q_cut1 = new TH1D("h_q_cut1", ";cq1", 100, -2., 2.);
+	TH1D *h_q_cut1_before = new TH1D("h_q_cut1_before", ";cq1", 400, -2., 2.); h_q_cut1_before->SetLineColor(2);
+	TH1D *h_q_cut1_after = new TH1D("h_q_cut1_after", ";cq1", 400, -2., 2.); h_q_cut1_after->SetLineColor(4);
 
 	TH2D *h2_x_R_1_F_vs_x_R_1_N = new TH2D("h2_x_R_1_F_vs_x_R_1_N", ";x_R_1_N;x_R_1_F", 100, 0., 20., 100, 0., 20.);
 	TProfile *p_x_R_1_F_vs_x_R_1_N = new TProfile("p_x_R_1_F_vs_x_R_1_N", ";x_R_1_N;x_R_1_F", 100, 0., 20.);
-	TH1D *h_q_cut2 = new TH1D("h_q_cut2", ";cq2", 100, -2., 2.);
+	TH1D *h_q_cut2_before = new TH1D("h_q_cut2_before", ";cq2", 400, -2., 2.); h_q_cut2_before->SetLineColor(2);
+	TH1D *h_q_cut2_after = new TH1D("h_q_cut2_after", ";cq2", 400, -2., 2.); h_q_cut2_after->SetLineColor(4);
+
+	TH2D *h2_y_L_1_F_vs_y_L_1_N = new TH2D("h2_y_L_1_F_vs_y_L_1_N", ";y_L_1_N;y_L_1_F", 100, -10., +10., 100, -10., +10.);
+	TProfile *p_y_L_1_F_vs_y_L_1_N = new TProfile("p_y_L_1_F_vs_y_L_1_N", ";y_L_1_N;y_L_1_F", 100, -10., +10.);
+	TH1D *h_q_cut3_before = new TH1D("h_q_cut3_before", ";cq3", 400, -2., 2.); h_q_cut3_before->SetLineColor(2);
+	TH1D *h_q_cut3_after = new TH1D("h_q_cut3_after", ";cq3", 400, -2., 2.); h_q_cut3_after->SetLineColor(4);
+
+	TH2D *h2_y_R_1_F_vs_y_R_1_N = new TH2D("h2_y_R_1_F_vs_y_R_1_N", ";y_R_1_N;y_R_1_F", 100, -10., +10., 100, -10., +10.);
+	TProfile *p_y_R_1_F_vs_y_R_1_N = new TProfile("p_y_R_1_F_vs_y_R_1_N", ";y_R_1_N;y_R_1_F", 100, -10., +10.);
+	TH1D *h_q_cut4_before = new TH1D("h_q_cut4_before", ";cq4", 400, -2., 2.); h_q_cut4_before->SetLineColor(2);
+	TH1D *h_q_cut4_after = new TH1D("h_q_cut4_after", ";cq4", 400, -2., 2.); h_q_cut4_after->SetLineColor(4);
 
 	TH2D *h2_y_vs_x_L_1_F_sel = new TH2D("h2_y_vs_x_L_1_F_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
 	TH2D *h2_y_vs_x_L_1_N_sel = new TH2D("h2_y_vs_x_L_1_N_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
@@ -193,11 +238,22 @@ int main()
 			h2_x_L_1_F_vs_x_L_1_N->Fill(tr_L_1_N.x, tr_L_1_F.x);
 			p_x_L_1_F_vs_x_L_1_N->Fill(tr_L_1_N.x, tr_L_1_F.x);
 
-			double cq = tr_L_1_F.x + cut1_a * tr_L_1_N.x + cut1_c;
-			h_q_cut1->Fill(cq);
+			h2_y_L_1_F_vs_y_L_1_N->Fill(tr_L_1_N.y, tr_L_1_F.y);
+			p_y_L_1_F_vs_y_L_1_N->Fill(tr_L_1_N.y, tr_L_1_F.y);
 
-			if (fabs(cq) < n_si * cut1_si)
+			double cq1 = tr_L_1_F.x + cut1_a * tr_L_1_N.x + cut1_c;
+			h_q_cut1_before->Fill(cq1);
+			bool cut1_val = (fabs(cq1) < n_si * cut1_si);
+
+			double cq3 = tr_L_1_F.y + cut3_a * tr_L_1_N.y + cut3_c;
+			h_q_cut3_before->Fill(cq3);
+			bool cut3_val = (fabs(cq3) < n_si * cut3_si);
+
+			if (cut1_val && cut3_val)
 			{
+				h_q_cut1_after->Fill(cq1);
+				h_q_cut3_after->Fill(cq3);
+
 				h2_y_vs_x_L_1_N_sel->Fill(tr_L_1_N.x, tr_L_1_N.y);
 				h2_y_vs_x_L_1_F_sel->Fill(tr_L_1_F.x, tr_L_1_F.y);
 
@@ -211,11 +267,22 @@ int main()
 			h2_x_R_1_F_vs_x_R_1_N->Fill(tr_R_1_N.x, tr_R_1_F.x);
 			p_x_R_1_F_vs_x_R_1_N->Fill(tr_R_1_N.x, tr_R_1_F.x);
 
-			double cq = tr_R_1_F.x + cut2_a * tr_R_1_N.x + cut2_c;
-			h_q_cut2->Fill(cq);
+			h2_y_R_1_F_vs_y_R_1_N->Fill(tr_R_1_N.y, tr_R_1_F.y);
+			p_y_R_1_F_vs_y_R_1_N->Fill(tr_R_1_N.y, tr_R_1_F.y);
 
-			if (fabs(cq) < n_si * cut2_si)
+			double cq2 = tr_R_1_F.x + cut2_a * tr_R_1_N.x + cut2_c;
+			h_q_cut2_before->Fill(cq2);
+			bool cut2_val = (fabs(cq2) < n_si * cut2_si);
+
+			double cq4 = tr_R_1_F.y + cut4_a * tr_R_1_N.y + cut4_c;
+			h_q_cut4_before->Fill(cq4);
+			bool cut4_val = (fabs(cq4) < n_si * cut4_si);
+
+			if (cut2_val && cut4_val)
 			{
+				h_q_cut2_after->Fill(cq2);
+				h_q_cut4_after->Fill(cq4);
+
 				h2_y_vs_x_R_1_N_sel->Fill(tr_R_1_N.x, tr_R_1_N.y);
 				h2_y_vs_x_R_1_F_sel->Fill(tr_R_1_F.x, tr_R_1_F.y);
 
@@ -228,6 +295,30 @@ int main()
 	// save histograms
 	gDirectory = f_out;
 
+	// make fits
+	TF1 *ff_pol1 = new TF1("ff_pol1", "[0] + [1]*x");
+
+	double fx_min, fx_max;
+
+	fx_min = (alignment_run) ? 4. : 7.;
+	fx_max = (alignment_run) ? 13. : 14.;
+	p_x_L_1_F_vs_x_L_1_N->Fit(ff_pol1, "Q", "", fx_min, fx_max);
+	printf("\tcut1_a = %+.3f; cut1_c = %+.3f; cut1_si = 0.20;\n", -ff_pol1->GetParameter(1), -ff_pol1->GetParameter(0));
+
+	fx_min = (alignment_run) ? 2. : 7.;
+	fx_max = (alignment_run) ? 13. : 16.;
+	p_x_R_1_F_vs_x_R_1_N->Fit(ff_pol1, "Q", "", fx_min, fx_max);
+	printf("\tcut2_a = %+.3f; cut2_c = %+.3f; cut2_si = 0.20;\n", -ff_pol1->GetParameter(1), -ff_pol1->GetParameter(0));
+
+	fx_min = (alignment_run) ? -4.5 : -4.5;
+	fx_max = (alignment_run) ? +4.5 : +4.5;
+	
+	p_y_L_1_F_vs_y_L_1_N->Fit(ff_pol1, "Q", "", fx_min, fx_max);
+	printf("\tcut3_a = %+.3f; cut3_c = %+.3f; cut3_si = 0.15;\n", -ff_pol1->GetParameter(1), -ff_pol1->GetParameter(0));
+
+	p_y_R_1_F_vs_y_R_1_N->Fit(ff_pol1, "Q", "", fx_min, fx_max);
+	printf("\tcut4_a = %+.3f; cut4_c = %+.3f; cut4_si = 0.15;\n", -ff_pol1->GetParameter(1), -ff_pol1->GetParameter(0));
+
 	// save histograms
 	gDirectory = f_out->mkdir("before selection");
 	h2_y_vs_x_L_1_F_no_sel->Write();
@@ -239,13 +330,31 @@ int main()
 	
 	gDirectory = d_cuts->mkdir("cut 1");
 	h2_x_L_1_F_vs_x_L_1_N->Write();
+	WriteCutPlot(h2_x_L_1_F_vs_x_L_1_N, cut1_a, cut1_c, cut1_si, "canvas_before");
 	p_x_L_1_F_vs_x_L_1_N->Write();
-	h_q_cut1->Write();
+	h_q_cut1_before->Write();
+	h_q_cut1_after->Write();
 
 	gDirectory = d_cuts->mkdir("cut 2");
 	h2_x_R_1_F_vs_x_R_1_N->Write();
+	WriteCutPlot(h2_x_R_1_F_vs_x_R_1_N, cut2_a, cut2_c, cut2_si, "canvas_before");
 	p_x_R_1_F_vs_x_R_1_N->Write();
-	h_q_cut2->Write();
+	h_q_cut2_before->Write();
+	h_q_cut2_after->Write();
+	
+	gDirectory = d_cuts->mkdir("cut 3");
+	h2_y_L_1_F_vs_y_L_1_N->Write();
+	WriteCutPlot(h2_y_L_1_F_vs_y_L_1_N, cut3_a, cut3_c, cut3_si, "canvas_before");
+	p_y_L_1_F_vs_y_L_1_N->Write();
+	h_q_cut3_before->Write();
+	h_q_cut3_after->Write();
+
+	gDirectory = d_cuts->mkdir("cut 4");
+	h2_y_R_1_F_vs_y_R_1_N->Write();
+	WriteCutPlot(h2_y_R_1_F_vs_y_R_1_N, cut4_a, cut4_c, cut4_si, "canvas_before");
+	p_y_R_1_F_vs_y_R_1_N->Write();
+	h_q_cut4_before->Write();
+	h_q_cut4_after->Write();
 
 	gDirectory = f_out->mkdir("after selection");
 	h2_y_vs_x_L_1_F_sel->Write();

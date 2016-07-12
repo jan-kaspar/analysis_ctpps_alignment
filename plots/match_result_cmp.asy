@@ -20,9 +20,9 @@ string ref_label[];
 pen ref_pen[];
 real ref_offset[];
 
-ref_label.push("10077"); ref_pen.push(blue); ref_offset.push(-0.1);
+ref_label.push("10077"); ref_pen.push(blue); ref_offset.push(-0.2);
 ref_label.push("10079"); ref_pen.push(red); ref_offset.push(-0.0);
-ref_label.push("10081"); ref_pen.push(heavygreen); ref_offset.push(+0.1);
+ref_label.push("10081"); ref_pen.push(heavygreen); ref_offset.push(+0.2);
 
 string rps[] = {
 	"L_1_F",
@@ -31,7 +31,25 @@ string rps[] = {
 	"R_1_F",
 };
 
-yTicksDef = RightTicks(0.1, 0.05);
+yTicksDef = RightTicks(0.2, 0.1);
+
+xSizeDef = 8cm;
+
+//----------------------------------------------------------------------------------------------------
+
+string TickLabels(real x)
+{
+	if (x >=0 && x < datasets.length)
+	{
+		string ds = datasets[(int)x];
+		string bits[] = split(ds, "/");
+		return bits[1];
+	} else {
+		return "";
+	}
+}
+
+xTicksDef = LeftTicks(rotate(90)*Label(""), TickLabels, Step=1, step=0);
 
 //----------------------------------------------------------------------------------------------------
 
@@ -45,9 +63,10 @@ NewRow();
 
 for (int rpi : rps.keys)
 {
+	write(rps[rpi]);
+
 	NewPad("dataset", "shift$\ung{mm}$");
 
-	real S1=0, Sbsh=0;
 	for (int dsi : datasets.keys)
 	{
 		for (int ri : ref_label.keys)
@@ -66,21 +85,17 @@ for (int rpi : rps.keys)
 		
 			draw((x, bsh), mCi+2pt+p);
 			draw((x, bsh-bsh_unc)--(x, bsh+bsh_unc), p);
-	
-			S1 += 1.;
-			Sbsh += bsh;
 		}
-	}
-
-	real bsh_mean = Sbsh / S1;
-
-	for (int dsi : datasets.keys)
-	{
-		string bits[] = split(replace(datasets[dsi], "_", "\_"), "/");
-		label(rotate(90) * Label(bits[1], Fill(white)), (dsi, bsh_mean));
 	}
 
 	xlimits(-1, datasets.length);
 }
 
-GShipout(hSkip=1mm, vSkip=1mm);
+//----------------------------------------------------------------------------------------------------
+
+NewPad(false);
+for (int ri : ref_label.keys)
+	AddToLegend(ref_label[ri], ref_pen[ri], mCi+2pt+ref_pen[ri]);
+AttachLegend();
+
+GShipout(hSkip=5mm, vSkip=1mm);

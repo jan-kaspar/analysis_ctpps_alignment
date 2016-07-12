@@ -1,9 +1,9 @@
 void ApplySettings()
 {
-	n_si = 3.;
-
-	cut1_a = -1.007; cut1_c = -2.259; cut1_si = 0.20;
-	cut2_a = -0.970; cut2_c = +0.434; cut2_si = 0.21;
+	cut1_a = -0.998; cut1_c = -1.554; cut1_si = 0.20;
+	cut2_a = -0.962; cut2_c = +0.369; cut2_si = 0.20;
+	cut3_a = -1.159; cut3_c = +0.986; cut3_si = 0.08;
+	cut4_a = -1.142; cut4_c = +0.040; cut4_si = 0.08;
 
 	selectionRangesX["L_1_F"] = SelectionRange(9.8, 15.5);
 	selectionRangesX["L_1_N"] = SelectionRange(7.1, 13.5);

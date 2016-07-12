@@ -1,7 +1,9 @@
 void ApplySettings()
 {
-	n_si = 3.;
+	alignment_run = true;
 
-	cut1_a = -1.003; cut1_c = +0.07; cut1_si = 0.18;
-	cut2_a = -0.974; cut2_c = +0.15; cut2_si = 0.18;
+	cut1_a = -0.998; cut1_c = +0.038; cut1_si = 0.20;
+	cut2_a = -0.965; cut2_c = +0.101; cut2_si = 0.20;
+	cut3_a = -1.163; cut3_c = -0.080; cut3_si = 0.15;
+	cut4_a = -1.136; cut4_c = +0.397; cut4_si = 0.15;
 }

@@ -3,9 +3,10 @@ import pad_layout;
 
 string topDir = "../";
 
-string dataset = "run_physics_margin/274199";
+string dataset = "run_physics_no_margin/274388";
+//string dataset = "run_physics_no_margin/274958";
 
-string reference = "10077";
+string reference = "10081";
 
 string rps[] = {
 	"L_1_F",
@@ -29,6 +30,7 @@ NewRow();
 for (int rpi : rps.keys)
 {
 	NewPad("$x\ung{mm}$", "std.~dev.~of $y\ung{mm}$");
+	currentpad.yTicks = RightTicks(0.5, 0.1);
 
 	string p_base = rps[rpi] + "/" + reference + "/h_cmp|";
 	draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_ref_sel"), "d0,eb", black);
@@ -40,9 +42,11 @@ for (int rpi : rps.keys)
 
 NewRow();
 
+xTicksDef = LeftTicks(50., 10.);
+
 for (int rpi : rps.keys)
 {
-	NewPad("shift, in steps of $100\ung{\mu m}$", "bins in overlap");
+	NewPad("shift (steps)", "bins in overlap");
 
 	RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_results");
 	real ax[] = { 0. };
@@ -51,7 +55,7 @@ for (int rpi : rps.keys)
 
 	draw(RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_n_bins"), "p", magenta, mCi+1pt+magenta);
 
-	limits((-50, 0), (+50, 60), Crop);
+	limits((-200, 0), (+150, 300), Crop);
 	yaxis(XEquals(ay[0], false), dashed);
 }
 
@@ -68,7 +72,7 @@ for (int rpi : rps.keys)
 
 	draw(RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_chi_sq_norm"), "p", heavygreen, mCi+1pt+heavygreen);
 
-	limits((-50, 0), (+50, 1500), Crop);
+	limits((-200, 0), (+150, 300), Crop);
 	yaxis(XEquals(ay[0], false), dashed);
 }
 

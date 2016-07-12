@@ -18,9 +18,13 @@ struct SelectionRange
 
 // parameter defaults
 
+bool alignment_run = false;
+
 double n_si = 3.;
 
 double cut1_a = -1., cut1_c = 0., cut1_si = 0.20;
 double cut2_a = -1., cut2_c = 0., cut2_si = 0.20;
+double cut3_a = -1., cut3_c = 0., cut3_si = 0.20;
+double cut4_a = -1., cut4_c = 0., cut4_si = 0.20;
 
 std::map<std::string, SelectionRange> selectionRangesX;
