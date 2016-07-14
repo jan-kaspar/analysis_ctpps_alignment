@@ -176,6 +176,11 @@ int main()
 	TH1D *h_q_cut4_before = new TH1D("h_q_cut4_before", ";cq4", 400, -2., 2.); h_q_cut4_before->SetLineColor(2);
 	TH1D *h_q_cut4_after = new TH1D("h_q_cut4_after", ";cq4", 400, -2., 2.); h_q_cut4_after->SetLineColor(4);
 
+	TGraph *g_y_vs_x_L_1_F_sel = new TGraph(); g_y_vs_x_L_1_F_sel->SetName("g_y_vs_x_L_1_F_sel"); g_y_vs_x_L_1_F_sel->SetTitle(";x;y");
+	TGraph *g_y_vs_x_L_1_N_sel = new TGraph(); g_y_vs_x_L_1_N_sel->SetName("g_y_vs_x_L_1_N_sel"); g_y_vs_x_L_1_N_sel->SetTitle(";x;y");
+	TGraph *g_y_vs_x_R_1_N_sel = new TGraph(); g_y_vs_x_R_1_N_sel->SetName("g_y_vs_x_R_1_N_sel"); g_y_vs_x_R_1_N_sel->SetTitle(";x;y");
+	TGraph *g_y_vs_x_R_1_F_sel = new TGraph(); g_y_vs_x_R_1_F_sel->SetName("g_y_vs_x_R_1_F_sel"); g_y_vs_x_R_1_F_sel->SetTitle(";x;y");
+
 	TH2D *h2_y_vs_x_L_1_F_sel = new TH2D("h2_y_vs_x_L_1_F_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
 	TH2D *h2_y_vs_x_L_1_N_sel = new TH2D("h2_y_vs_x_L_1_N_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
 	TH2D *h2_y_vs_x_R_1_N_sel = new TH2D("h2_y_vs_x_R_1_N_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
@@ -260,6 +265,10 @@ int main()
 				h_q_cut1_after->Fill(cq1);
 				h_q_cut3_after->Fill(cq3);
 
+				int idx = g_y_vs_x_L_1_N_sel->GetN();
+				g_y_vs_x_L_1_N_sel->SetPoint(idx, tr_L_1_N.x, tr_L_1_N.y);
+				g_y_vs_x_L_1_F_sel->SetPoint(idx, tr_L_1_F.x, tr_L_1_F.y);
+
 				h2_y_vs_x_L_1_N_sel->Fill(tr_L_1_N.x, tr_L_1_N.y);
 				h2_y_vs_x_L_1_F_sel->Fill(tr_L_1_F.x, tr_L_1_F.y);
 
@@ -294,6 +303,10 @@ int main()
 			{
 				h_q_cut2_after->Fill(cq2);
 				h_q_cut4_after->Fill(cq4);
+
+				int idx = g_y_vs_x_R_1_N_sel->GetN();
+				g_y_vs_x_R_1_N_sel->SetPoint(idx, tr_R_1_N.x, tr_R_1_N.y);
+				g_y_vs_x_R_1_F_sel->SetPoint(idx, tr_R_1_F.x, tr_R_1_F.y);
 
 				h2_y_vs_x_R_1_N_sel->Fill(tr_R_1_N.x, tr_R_1_N.y);
 				h2_y_vs_x_R_1_F_sel->Fill(tr_R_1_F.x, tr_R_1_F.y);
@@ -369,6 +382,11 @@ int main()
 	h_q_cut4_after->Write();
 
 	gDirectory = f_out->mkdir("after selection");
+	g_y_vs_x_L_1_F_sel->Write();
+	g_y_vs_x_L_1_N_sel->Write();
+	g_y_vs_x_R_1_N_sel->Write();
+	g_y_vs_x_R_1_F_sel->Write();
+
 	h2_y_vs_x_L_1_F_sel->Write();
 	h2_y_vs_x_L_1_N_sel->Write();
 	h2_y_vs_x_R_1_N_sel->Write();
