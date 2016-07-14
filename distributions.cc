@@ -249,7 +249,13 @@ int main()
 			h_q_cut3_before->Fill(cq3);
 			bool cut3_val = (fabs(cq3) < n_si * cut3_si);
 
-			if (cut1_val && cut3_val)
+			bool cuts_passed = true;
+			if (cut1_apply)
+				cuts_passed &= cut1_val;
+			if (cut3_apply)
+				cuts_passed &= cut3_val;
+
+			if (cuts_passed)
 			{
 				h_q_cut1_after->Fill(cq1);
 				h_q_cut3_after->Fill(cq3);
@@ -278,7 +284,13 @@ int main()
 			h_q_cut4_before->Fill(cq4);
 			bool cut4_val = (fabs(cq4) < n_si * cut4_si);
 
-			if (cut2_val && cut4_val)
+			bool cuts_passed = true;
+			if (cut2_apply)
+				cuts_passed &= cut2_val;
+			if (cut4_apply)
+				cuts_passed &= cut4_val;
+
+			if (cuts_passed)
 			{
 				h_q_cut2_after->Fill(cq2);
 				h_q_cut4_after->Fill(cq4);

@@ -7,6 +7,7 @@
 #include "TH1D.h"
 #include "TGraph.h"
 #include "TCanvas.h"
+#include "TF1.h"
 
 #include <vector>
 #include <string>
@@ -14,6 +15,10 @@
 //----------------------------------------------------------------------------------------------------
 
 using namespace std;
+
+//----------------------------------------------------------------------------------------------------
+
+TF1 *ff_pol2 = new TF1("ff_pol2", "[0] + [1]*x + [2]*x*x");
 
 //----------------------------------------------------------------------------------------------------
 
@@ -43,8 +48,9 @@ void DoMatch(TH1D *h_test, const SelectionRange &r_test, TH1D *h_ref, const Sele
 	printf("    bin range ref: %i to %i\n", bi_ref_min, bi_ref_max);
 
 	// book match-quality graphs
-	TGraph *g_n_bins = new TGraph(); g_n_bins->SetName("g_n_bins"); g_n_bins->SetTitle(";sh;S2 / N");
-	TGraph *g_chi_sq_norm = new TGraph(); g_chi_sq_norm->SetName("g_chi_sq_norm"); g_chi_sq_norm->SetTitle(";sh;N");
+	TGraph *g_n_bins = new TGraph(); g_n_bins->SetName("g_n_bins"); g_n_bins->SetTitle(";sh;N");
+	TGraph *g_chi_sq = new TGraph(); g_chi_sq->SetName("g_chi_sq"); g_chi_sq->SetTitle(";sh;S2");
+	TGraph *g_chi_sq_norm = new TGraph(); g_chi_sq_norm->SetName("g_chi_sq_norm"); g_chi_sq_norm->SetTitle(";sh;S2 / N");
 
 	// determine step
 	double step = h_test->GetBinWidth(1);
@@ -101,13 +107,22 @@ void DoMatch(TH1D *h_test, const SelectionRange &r_test, TH1D *h_ref, const Sele
 
 		int idx = g_n_bins->GetN();
 		g_n_bins->SetPoint(idx, sh, bins);
+		g_chi_sq->SetPoint(idx, sh, S2);
 		g_chi_sq_norm->SetPoint(idx, sh, S2_norm);
 	}
 
-	printf("    sh_best = %i\n", sh_best);
+	// determine uncertainty
+	double fit_range = 30;	// steps
+	g_chi_sq->Fit(ff_pol2, "Q", "", sh_best - fit_range, sh_best + fit_range);
+
+	double sh_best_unc = 1. / sqrt(ff_pol2->GetParameter(2));
+
+	// print results
+	printf("    sh_best = %i +- %.1f\n", sh_best, sh_best_unc);
 
 	// save graphs
 	g_n_bins->Write();
+	g_chi_sq->Write();
 	g_chi_sq_norm->Write();
 
 	// save histos
@@ -121,7 +136,6 @@ void DoMatch(TH1D *h_test, const SelectionRange &r_test, TH1D *h_ref, const Sele
 			h_ref_sel->SetBinError(bi, 0.);
 		}
 	}
-
 	
 	TH1D *h_test_bef = new TH1D(*h_test); h_test_bef->SetName("h_test_bef"); h_test_bef->SetLineColor(2);
 	TH1D *h_test_aft = new TH1D(*h_test); h_test_aft->SetName("h_test_aft"); h_test_aft->SetLineColor(4); h_test_aft->Reset();
@@ -148,6 +162,8 @@ void DoMatch(TH1D *h_test, const SelectionRange &r_test, TH1D *h_ref, const Sele
 	g_results->SetName("g_results");
 	g_results->SetPoint(0, 0, sh_best);
 	g_results->SetPoint(1, 0, sh_best * step);
+	g_results->SetPoint(2, 0, sh_best_unc);
+	g_results->SetPoint(3, 0, sh_best_unc * step);
 	g_results->Write();
 }
 

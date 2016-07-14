@@ -3,7 +3,8 @@ import pad_layout;
 
 string topDir = "../";
 
-string dataset = "run_physics_no_margin/274388";
+string dataset = "run_physics_margin/274199";
+//string dataset = "run_physics_no_margin/274388";
 //string dataset = "run_physics_no_margin/274958";
 
 string reference = "10081";
@@ -18,6 +19,11 @@ string rps[] = {
 ySizeDef = 5cm;
 
 //----------------------------------------------------------------------------------------------------
+
+NewPad(false);
+label(replace(dataset, "_", "\_"));
+
+NewRow();
 
 for (int rpi : rps.keys)
 {
@@ -51,29 +57,35 @@ for (int rpi : rps.keys)
 	RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_results");
 	real ax[] = { 0. };
 	real ay[] = { 0. };
-	robj.vExec("GetPoint", 0, ax, ay);
+	robj.vExec("GetPoint", 0, ax, ay); real sh_best = ay[0];
+	robj.vExec("GetPoint", 2, ax, ay); real sh_best_unc = ay[0];
 
 	draw(RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_n_bins"), "p", magenta, mCi+1pt+magenta);
 
 	limits((-200, 0), (+150, 300), Crop);
-	yaxis(XEquals(ay[0], false), dashed);
+	yaxis(XEquals(sh_best - sh_best_unc, false), dashed);
+	yaxis(XEquals(sh_best, false), solid);
+	yaxis(XEquals(sh_best + sh_best_unc, false), dashed);
 }
 
 NewRow();
 
 for (int rpi : rps.keys)
 {
-	NewPad("shift, in steps of $100\ung{\mu m}$", "$S^2 / N$");
+	NewPad("shift (steps)", "$S^2 / N$");
 
 	RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_results");
 	real ax[] = { 0. };
 	real ay[] = { 0. };
-	robj.vExec("GetPoint", 0, ax, ay);
+	robj.vExec("GetPoint", 0, ax, ay); real sh_best = ay[0];
+	robj.vExec("GetPoint", 2, ax, ay); real sh_best_unc = ay[0];
 
 	draw(RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_chi_sq_norm"), "p", heavygreen, mCi+1pt+heavygreen);
 
 	limits((-200, 0), (+150, 300), Crop);
-	yaxis(XEquals(ay[0], false), dashed);
+	yaxis(XEquals(sh_best - sh_best_unc, false), dashed);
+	yaxis(XEquals(sh_best, false), solid);
+	yaxis(XEquals(sh_best + sh_best_unc, false), dashed);
 }
 
 GShipout(hSkip=1mm, vSkip=1mm);
