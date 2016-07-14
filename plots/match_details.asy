@@ -3,8 +3,8 @@ import pad_layout;
 
 string topDir = "../";
 
-//string dataset = "run_physics_margin/274199";
-string dataset = "run_physics_no_margin/274388";
+string dataset = "run_physics_margin/274199";
+//string dataset = "run_physics_no_margin/274388";
 //string dataset = "run_physics_no_margin/274958";
 
 string reference = "10081";
@@ -38,7 +38,7 @@ for (int rpi : rps.keys)
 	NewPad("$x\ung{mm}$", "std.~dev.~of $y\ung{mm}$");
 	currentpad.yTicks = RightTicks(0.5, 0.1);
 
-	string p_base = rps[rpi] + "/" + reference + "/h_cmp|";
+	string p_base = rps[rpi] + "/" + reference + "/c_cmp|";
 	draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_ref_sel"), "d0,eb", black);
 	draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_bef"), "d0,eb", blue);
 	draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_aft"), "d0,eb", red);
@@ -48,21 +48,21 @@ for (int rpi : rps.keys)
 
 NewRow();
 
-xTicksDef = LeftTicks(50., 10.);
+xTicksDef = LeftTicks(1., 0.2);
 
 for (int rpi : rps.keys)
 {
-	NewPad("shift (steps)", "bins in overlap");
+	NewPad("shift$\ung{mm}$", "bins in overlap");
 
 	RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_results");
 	real ax[] = { 0. };
 	real ay[] = { 0. };
 	robj.vExec("GetPoint", 0, ax, ay); real sh_best = ay[0];
-	robj.vExec("GetPoint", 2, ax, ay); real sh_best_unc = ay[0];
+	robj.vExec("GetPoint", 1, ax, ay); real sh_best_unc = ay[0];
 
 	draw(RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_n_bins"), "p", magenta, mCi+1pt+magenta);
 
-	limits((-200, 0), (+150, 300), Crop);
+	limits((-5, 0), (+0, 60), Crop);
 	yaxis(XEquals(sh_best - sh_best_unc, false), dashed);
 	yaxis(XEquals(sh_best, false), solid);
 	yaxis(XEquals(sh_best + sh_best_unc, false), dashed);
@@ -72,17 +72,17 @@ NewRow();
 
 for (int rpi : rps.keys)
 {
-	NewPad("shift (steps)", "$S^2 / N$");
+	NewPad("shift$\ung{mm}$", "$S^2 / N$");
 
 	RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_results");
 	real ax[] = { 0. };
 	real ay[] = { 0. };
 	robj.vExec("GetPoint", 0, ax, ay); real sh_best = ay[0];
-	robj.vExec("GetPoint", 2, ax, ay); real sh_best_unc = ay[0];
+	robj.vExec("GetPoint", 1, ax, ay); real sh_best_unc = ay[0];
 
 	draw(RootGetObject(topDir + dataset+"/match.root", rps[rpi] + "/" + reference + "/g_chi_sq_norm"), "p", heavygreen, mCi+1pt+heavygreen);
 
-	limits((-200, 0), (+150, 300), Crop);
+	limits((-5, 0), (+0, 200), Crop);
 	yaxis(XEquals(sh_best - sh_best_unc, false), dashed);
 	yaxis(XEquals(sh_best, false), solid);
 	yaxis(XEquals(sh_best + sh_best_unc, false), dashed);

@@ -103,7 +103,7 @@ struct Stat
 	// 1D getters
 	//--------------------
 
-	double GetEntries()
+	double GetEntries() const
 	{
 		return S1;
 	}

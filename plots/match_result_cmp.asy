@@ -74,8 +74,8 @@ for (int rpi : rps.keys)
 			RootGetObject(topDir + datasets[dsi]+"/match.root", rps[rpi] + "/" + ref_label[ri] + "/g_results");
 			real ax[] = { 0. };
 			real ay[] = { 0. };
-			robj.vExec("GetPoint", 1, ax, ay); real bsh = ay[0];
-			robj.vExec("GetPoint", 3, ax, ay); real bsh_unc = ay[0];
+			robj.vExec("GetPoint", 0, ax, ay); real bsh = ay[0];
+			robj.vExec("GetPoint", 1, ax, ay); real bsh_unc = ay[0];
 
 			real x = dsi + ref_offset[ri];
 

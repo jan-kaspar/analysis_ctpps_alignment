@@ -57,7 +57,7 @@ for (int dsi : datasets.keys)
 	{
 		NewPad("$x\ung{mm}$", "std.~dev.~of $y\ung{mm}$");
 	
-		string p_base = rps[rpi] + "/" + reference + "/h_cmp|";
+		string p_base = rps[rpi] + "/" + reference + "/c_cmp|";
 		draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_ref_sel"), "d0,eb", black);
 		draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_bef"), "d0,eb", blue);
 		draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_aft"), "d0,eb", red);
