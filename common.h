@@ -24,8 +24,8 @@ double n_si = 3.;
 
 bool cut1_apply = true;
 bool cut2_apply = true;
-bool cut3_apply = true;
-bool cut4_apply = true;
+bool cut3_apply = false;
+bool cut4_apply = false;
 
 double cut1_a = -1., cut1_c = 0., cut1_si = 0.20;
 double cut2_a = -1., cut2_c = 0., cut2_si = 0.20;
