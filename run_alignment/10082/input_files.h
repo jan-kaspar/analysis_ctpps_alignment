@@ -13,10 +13,10 @@ void InitInputFiles()
 
 	input_files.clear();
 
-	std::string prefix = "root://eostotem.cern.ch//eos/totem/data/ctpps/reconstruction/alignment_run_version1/";
+	std::string prefix = "root://eostotem.cern.ch//eos/totem/data/ctpps/reconstruction/alignment_run_version2/";
 	prefix += "10082/";
 
-	for (int idx = 0; idx <= 2; ++idx)
+	for (int idx = 0; idx <= 5; ++idx)
 	{
 		char buf[100];
 		sprintf(buf, "%i", idx);
