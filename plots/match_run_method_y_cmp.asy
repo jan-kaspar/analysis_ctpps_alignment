@@ -17,9 +17,12 @@ string datasets[] = {
 };
 
 string datasets[] = {
+	"run_physics_no_margin/274244",
 	"run_physics_no_margin/274388",
 	"run_physics_no_margin/274958",
 	"run_physics_no_margin/274969",
+	"run_physics_no_margin/275310",
+	"run_physics_no_margin/275836",
 };
 
 string reference = "10077";

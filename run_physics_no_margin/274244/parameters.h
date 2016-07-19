@@ -5,8 +5,8 @@ void ApplySettings()
 	cut3_a = -1.147; cut3_c = +1.149; cut3_si = 0.08;
 	cut4_a = -1.142; cut4_c = +0.039; cut4_si = 0.08;
 
-	selectionRangesX["L_1_F"] = SelectionRange(9.8, 15.8);
-	selectionRangesX["L_1_N"] = SelectionRange(7.1, 13.0);
-	selectionRangesX["R_1_N"] = SelectionRange(8.0, 14.0);
-	selectionRangesX["R_1_F"] = SelectionRange(7.4, 13.5);
+	selectionRangesX["L_1_F"] = SelectionRange(9.8, 16.5);
+	selectionRangesX["L_1_N"] = SelectionRange(7.1, 14.5);
+	selectionRangesX["R_1_N"] = SelectionRange(8.0, 15.5);
+	selectionRangesX["R_1_F"] = SelectionRange(7.4, 14.5);
 }

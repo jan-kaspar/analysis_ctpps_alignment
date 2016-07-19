@@ -121,7 +121,7 @@ void BuildStdDevProfile(TGraph *g_input, double x_shift, const SelectionRange &r
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref)
+void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max)
 {
 	// prepare reference histogram
 	TH1D *h_ref = new TH1D("h_ref", ";x", 140, 2., 16.);
@@ -141,8 +141,6 @@ void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 	h_test->SetName("h_test");
 
 	// loop over shifts
-	double sh_min = -5.;	// mm
-	double sh_max = 0.;		// mm
 	double sh_step = 0.025;	// mm
 	for (double sh = sh_min; sh <= sh_max; sh += sh_step)
 	{
@@ -273,7 +271,7 @@ void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref)
+void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max)
 {
 	// prepare reference histogram
 	TH1D *h_ref = new TH1D("h_ref", ";x", 140, 2., 16.);
@@ -293,8 +291,6 @@ void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 	h_test->SetName("h_test");
 
 	// loop over shifts
-	double sh_min = -5.;	// mm
-	double sh_max = 0.;		// mm
 	double sh_step = 0.025;	// mm
 	for (double sh = sh_min; sh <= sh_max; sh += sh_step)
 	{
@@ -383,17 +379,17 @@ void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref)
+void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max)
 {
 	TDirectory *d_top = gDirectory;
 
 	gDirectory = d_top->mkdir("method y");
 	printf("    method y\n");
-	DoMatchMethodY(g_test, r_test, g_ref, r_ref);
+	DoMatchMethodY(g_test, r_test, g_ref, r_ref, sh_min, sh_max);
 
 	gDirectory = d_top->mkdir("method x");
 	printf("    method x\n");
-	DoMatchMethodX(g_test, r_test, g_ref, r_ref);
+	DoMatchMethodX(g_test, r_test, g_ref, r_ref, sh_min, sh_max);
 
 	gDirectory = d_top;
 }
@@ -406,12 +402,18 @@ int main()
 	// apply settings
 	ApplySettings();
 
-	// list of RPs
-	vector<string> rps = {
-		"L_1_F",
-		"L_1_N",
-		"R_1_N",
-		"R_1_F"
+	// list of RPs and their settings
+	struct RPData
+	{
+		string name;
+		double sh_min, sh_max;	// in mm
+	}
+
+	vector<RPData> rpData = {
+		{ "L_1_F", -5., -3. },
+		{ "L_1_N", -3., -1. },
+		{ "R_1_N", -5., -3. },
+		{ "R_1_F", -4., -2. }
 	};
 
 	// list of references
@@ -419,34 +421,25 @@ int main()
 	map<string, SelectionRange> ref_ranges;
 
 	ref_ranges.clear();
-	ref_ranges["L_1_F"] = SelectionRange(3.7, 11.0);
-	ref_ranges["L_1_N"] = SelectionRange(3.8, 10.5);
-	ref_ranges["R_1_N"] = SelectionRange(2.5, 10.0);
-	ref_ranges["R_1_F"] = SelectionRange(3.0,  9.5);
+	ref_ranges["L_1_F"] = SelectionRange(3.7, 12.5);
+	ref_ranges["L_1_N"] = SelectionRange(3.8, 12.5);
+	ref_ranges["R_1_N"] = SelectionRange(2.5, 11.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
 	refInfo.push_back(ReferenceInfo("10077", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10077/", ref_ranges));
 
 	ref_ranges.clear();
-	ref_ranges["L_1_F"] = SelectionRange(4.0, 11.0);
-	ref_ranges["L_1_N"] = SelectionRange(4.4, 11.0);
-	ref_ranges["R_1_N"] = SelectionRange(3.0, 10.0);
-	ref_ranges["R_1_F"] = SelectionRange(3.0, 10.0);
+	ref_ranges["L_1_F"] = SelectionRange(4.0, 12.5);
+	ref_ranges["L_1_N"] = SelectionRange(4.4, 12.5);
+	ref_ranges["R_1_N"] = SelectionRange(3.0, 11.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
 	refInfo.push_back(ReferenceInfo("10079", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10079/", ref_ranges));
 
 	ref_ranges.clear();
-	ref_ranges["L_1_F"] = SelectionRange(4.0, 11.0);
-	ref_ranges["L_1_N"] = SelectionRange(4.4, 11.0);
-	ref_ranges["R_1_N"] = SelectionRange(3.0, 10.0);
-	ref_ranges["R_1_F"] = SelectionRange(3.0, 10.0);
+	ref_ranges["L_1_F"] = SelectionRange(4.0, 12.5);
+	ref_ranges["L_1_N"] = SelectionRange(4.4, 12.5);
+	ref_ranges["R_1_N"] = SelectionRange(3.0, 11.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
 	refInfo.push_back(ReferenceInfo("10081", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10081/", ref_ranges));
-
-	/*
-	ref_ranges.clear();
-	ref_ranges["L_1_F"] = SelectionRange(9.2, 15.5);
-	ref_ranges["L_1_N"] = SelectionRange(7.2, 13.4);
-	ref_ranges["R_1_N"] = SelectionRange(7.2, 15.0);
-	ref_ranges["R_1_F"] = SelectionRange(6.4, 14.0);
-	refInfo.push_back(ReferenceInfo("274241", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_physics_margin/274241", ref_ranges));
-	*/
 
 	// get input
 	TFile *f_in = new TFile("distributions.root");
@@ -455,14 +448,14 @@ int main()
 	TFile *f_out = new TFile("match.root", "recreate");
 
 	// processing per rp
-	for (const auto &rp : rps)
+	for (const auto &rpd : rpData)
 	{
-		printf("-------------------- %s --------------------\n", rp.c_str());
+		printf("-------------------- %s --------------------\n", rpd.name.c_str());
 
 		TDirectory *rp_dir = f_out->mkdir(rp.c_str());
-		TGraph *g_test = (TGraph *) f_in->Get(("after selection/g_y_vs_x_" + rp + "_sel").c_str());
+		TGraph *g_test = (TGraph *) f_in->Get(("after selection/g_y_vs_x_" + rpd.name + "_sel").c_str());
 
-		auto it_test = selectionRangesX.find(rp);
+		auto it_test = selectionRangesX.find(rpd.name);
 		if (it_test == selectionRangesX.end())
 		{
 			printf("ERROR: can't find RP in selectionRangesX.\n");
@@ -476,9 +469,9 @@ int main()
 			TDirectory *ref_dir = rp_dir->mkdir(ref.label.c_str());
 		
 			TFile *f_ref = TFile::Open((ref.path + "/distributions.root").c_str());
-			TGraph *g_ref = (TGraph *) f_ref->Get(("after selection/g_y_vs_x_" + rp + "_sel").c_str());
+			TGraph *g_ref = (TGraph *) f_ref->Get(("after selection/g_y_vs_x_" + rpd.name + "_sel").c_str());
 
-			auto it_ref = ref.selectionRangesX.find(rp);
+			auto it_ref = ref.selectionRangesX.find(rpd.name);
 			if (it_ref == ref.selectionRangesX.end())
 			{
 				printf("ERROR: can't find RP in ref.selectionRangesX.\n");
@@ -486,7 +479,7 @@ int main()
 			}
 
 			gDirectory = ref_dir;
-			DoMatch(g_test, it_test->second, g_ref, it_ref->second);
+			DoMatch(g_test, it_test->second, g_ref, it_ref->second, rpd.sh_min, rpd.sh_max);
 
 			delete f_ref;
 		}

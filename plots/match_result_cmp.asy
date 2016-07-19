@@ -27,8 +27,8 @@ ref_label.push("10081"); ref_pen.push(heavygreen); ref_offset.push(+0.2);
 string methods[];
 mark method_markers[];
 
-methods.push("method y"); method_markers.push(mCi);
-methods.push("method x"); method_markers.push(mCr);
+methods.push("method y"); method_markers.push(mCi+2pt);
+methods.push("method x"); method_markers.push(mCr+4pt);
 
 string rps[] = {
 	"L_1_F",
@@ -89,7 +89,7 @@ for (int rpi : rps.keys)
 	
 				pen p = ref_pen[ri];
 			
-				draw((x, bsh), method_markers[mi]+2pt+p);
+				draw((x, bsh), method_markers[mi]+p);
 				draw((x, bsh-bsh_unc)--(x, bsh+bsh_unc), p);
 			}
 		}
