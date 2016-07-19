@@ -33,6 +33,8 @@ string rps[] = {
 
 xSizeDef = 8cm;
 
+yTicksDef = RightTicks(0.5, 0.1);
+
 //----------------------------------------------------------------------------------------------------
 
 NewPad(false);
@@ -57,7 +59,7 @@ for (int dsi : datasets.keys)
 	{
 		NewPad("$x\ung{mm}$", "std.~dev.~of $y\ung{mm}$");
 	
-		string p_base = rps[rpi] + "/" + reference + "/c_cmp|";
+		string p_base = rps[rpi] + "/" + reference + "/method y/c_cmp|";
 		draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_ref_sel"), "d0,eb", black);
 		draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_bef"), "d0,eb", blue);
 		draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_aft"), "d0,eb", red);
