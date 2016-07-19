@@ -181,10 +181,10 @@ int main()
 	TGraph *g_y_vs_x_R_1_N_sel = new TGraph(); g_y_vs_x_R_1_N_sel->SetName("g_y_vs_x_R_1_N_sel"); g_y_vs_x_R_1_N_sel->SetTitle(";x;y");
 	TGraph *g_y_vs_x_R_1_F_sel = new TGraph(); g_y_vs_x_R_1_F_sel->SetName("g_y_vs_x_R_1_F_sel"); g_y_vs_x_R_1_F_sel->SetTitle(";x;y");
 
-	TH2D *h2_y_vs_x_L_1_F_sel = new TH2D("h2_y_vs_x_L_1_F_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_L_1_N_sel = new TH2D("h2_y_vs_x_L_1_N_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_R_1_N_sel = new TH2D("h2_y_vs_x_R_1_N_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_R_1_F_sel = new TH2D("h2_y_vs_x_R_1_F_sel", ";x;y", 800, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_L_1_F_sel = new TH2D("h2_y_vs_x_L_1_F_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_L_1_N_sel = new TH2D("h2_y_vs_x_L_1_N_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_R_1_N_sel = new TH2D("h2_y_vs_x_R_1_N_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_R_1_F_sel = new TH2D("h2_y_vs_x_R_1_F_sel", ";x;y", 200, 0., 20., 100, -15., +15.);
 
 	Profile p_y_vs_x_L_1_F_sel("L_1_F", h2_y_vs_x_L_1_F_sel);
 	Profile p_y_vs_x_L_1_N_sel("L_1_N", h2_y_vs_x_L_1_N_sel);
@@ -196,7 +196,8 @@ int main()
 	for (ev.toBegin(); ! ev.atEnd(); ++ev)
 	{
 		/*
-		if (ev_count > 1000000)
+		// TODO: comment out
+		if (ev_count > 10000000)
 			break;
 		ev_count++;
 		*/
