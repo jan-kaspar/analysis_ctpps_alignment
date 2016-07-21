@@ -147,6 +147,8 @@ int main()
 	InitInputFiles();
 	fwlite::ChainEvent ev(input_files);
 
+	printf("* events in input chain: %llu\n", ev.size());
+
 	// ouput file
 	TFile *f_out = new TFile("distributions.root", "recreate");
 
@@ -192,15 +194,15 @@ int main()
 	Profile p_y_vs_x_R_1_F_sel("R_1_F", h2_y_vs_x_R_1_F_sel);
 
 	// loop over the chain entries
-	unsigned int ev_count = 0;
+	unsigned long int ev_count = 0;
 	for (ev.toBegin(); ! ev.atEnd(); ++ev)
 	{
 		/*
 		// TODO: comment out
 		if (ev_count > 10000000)
 			break;
-		ev_count++;
 		*/
+		ev_count++;
 
 		// default track data
 		TrackData tr_L_1_F;
@@ -317,6 +319,8 @@ int main()
 			}
 		}
 	}
+
+	printf("* events processed: %lu\n", ev_count);
 
 	// save histograms
 	gDirectory = f_out;

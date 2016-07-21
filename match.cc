@@ -12,9 +12,9 @@
 #include <vector>
 #include <string>
 
-//----------------------------------------------------------------------------------------------------
-
 using namespace std;
+
+#include "alignment.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -121,7 +121,8 @@ void BuildStdDevProfile(TGraph *g_input, double x_shift, const SelectionRange &r
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max)
+void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max,
+		double &result)
 {
 	// prepare reference histogram
 	TH1D *h_ref = new TH1D("h_ref", ";x", 140, 2., 16.);
@@ -262,6 +263,8 @@ void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 	g_results->SetPoint(1, 0, sh_best_unc);
 	g_results->Write();
 
+	result = sh_best;
+
 	// cleaning
 	delete h_ref;
 	delete h_test;
@@ -271,7 +274,8 @@ void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max)
+void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max,
+		double &result)
 {
 	// prepare reference histogram
 	TH1D *h_ref = new TH1D("h_ref", ";x", 140, 2., 16.);
@@ -370,6 +374,8 @@ void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 	g_results->SetPoint(1, 0, sh_best_unc);
 	g_results->Write();
 
+	result = sh_best;
+
 	// cleaning
 	delete h_ref;
 	delete h_test;
@@ -379,17 +385,18 @@ void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max)
+void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max,
+		double &r_method_x, double &r_method_y)
 {
 	TDirectory *d_top = gDirectory;
 
-	gDirectory = d_top->mkdir("method y");
-	printf("    method y\n");
-	DoMatchMethodY(g_test, r_test, g_ref, r_ref, sh_min, sh_max);
-
 	gDirectory = d_top->mkdir("method x");
 	printf("    method x\n");
-	DoMatchMethodX(g_test, r_test, g_ref, r_ref, sh_min, sh_max);
+	DoMatchMethodX(g_test, r_test, g_ref, r_ref, sh_min, sh_max, r_method_x);
+
+	gDirectory = d_top->mkdir("method y");
+	printf("    method y\n");
+	DoMatchMethodY(g_test, r_test, g_ref, r_ref, sh_min, sh_max, r_method_y);
 
 	gDirectory = d_top;
 }
@@ -406,14 +413,15 @@ int main()
 	struct RPData
 	{
 		string name;
+		unsigned int id;
 		double sh_min, sh_max;	// in mm
-	}
+	};
 
 	vector<RPData> rpData = {
-		{ "L_1_F", -5., -3. },
-		{ "L_1_N", -3., -1. },
-		{ "R_1_N", -5., -3. },
-		{ "R_1_F", -4., -2. }
+		{ "L_1_F", 3,   -5., -3. },
+		{ "L_1_N", 2,   -3., -1. },
+		{ "R_1_N", 102, -5., -3. },
+		{ "R_1_F", 103, -4., -2. }
 	};
 
 	// list of references
@@ -447,12 +455,15 @@ int main()
 	// ouput file
 	TFile *f_out = new TFile("match.root", "recreate");
 
+	// prepare results
+	AlignmentResultsSet results;
+
 	// processing per rp
 	for (const auto &rpd : rpData)
 	{
 		printf("-------------------- %s --------------------\n", rpd.name.c_str());
 
-		TDirectory *rp_dir = f_out->mkdir(rp.c_str());
+		TDirectory *rp_dir = f_out->mkdir(rpd.name.c_str());
 		TGraph *g_test = (TGraph *) f_in->Get(("after selection/g_y_vs_x_" + rpd.name + "_sel").c_str());
 
 		auto it_test = selectionRangesX.find(rpd.name);
@@ -461,6 +472,8 @@ int main()
 			printf("ERROR: can't find RP in selectionRangesX.\n");
 			continue;
 		}
+
+		double S1=0., S_method_x=0., S_method_y=0.;
 
 		for (const auto &ref : refInfo)
 		{
@@ -478,12 +491,26 @@ int main()
 				continue;
 			}
 
+			double r_method_x=0., r_method_y=0.;
+
 			gDirectory = ref_dir;
-			DoMatch(g_test, it_test->second, g_ref, it_ref->second, rpd.sh_min, rpd.sh_max);
+			DoMatch(g_test, it_test->second, g_ref, it_ref->second, rpd.sh_min, rpd.sh_max, r_method_x, r_method_y);
+
+			S1 += 1.;
+			S_method_x += r_method_x;
+			S_method_y += r_method_y;
 
 			delete f_ref;
 		}
+
+		results["method x"][rpd.id] = AlignmentResult(S_method_x / S1);
+		results["method y"][rpd.id] = AlignmentResult(S_method_y / S1);
 	}
+
+	// write results
+	FILE *f_results = fopen("match.out", "w"); 
+	results.Write(f_results);
+	fclose(f_results);
 
 	// clean up
 	delete f_out;
