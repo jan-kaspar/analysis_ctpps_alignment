@@ -1,7 +1,7 @@
 import root;
 import pad_layout;
 
-string topDir = "../";
+string topDir = "../../";
 
 //string dataset = "run_physics_margin/274199";
 //string dataset = "run_physics_no_margin/274388";

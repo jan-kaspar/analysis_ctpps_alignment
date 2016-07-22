@@ -1,7 +1,7 @@
 import root;
 import pad_layout;
 
-string topDir = "../";
+string topDir = "../../";
 
 string dataset = "run_alignment/10077";
 
