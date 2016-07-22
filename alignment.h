@@ -1,3 +1,7 @@
+using namespace std;
+
+//----------------------------------------------------------------------------------------------------
+
 struct AlignmentResult
 {
 	double sh_x = 0.;		// mm
@@ -6,7 +10,7 @@ struct AlignmentResult
 	{
 	}
 
-	void Write(FILE *f)
+	void Write(FILE *f) const
 	{
 		fprintf(f, "sh_x=%.3f\n", sh_x);
 	}
@@ -16,7 +20,7 @@ struct AlignmentResult
 
 struct AlignmentResults : public map<unsigned int, AlignmentResult>
 {
-	void Write(FILE *f)
+	void Write(FILE *f) const
 	{
 		for (auto &p : *this)
 		{
@@ -24,13 +28,87 @@ struct AlignmentResults : public map<unsigned int, AlignmentResult>
 			p.second.Write(f);
 		}
 	}
+
+	int Add(char *line)
+	{
+		bool idSet = false;
+		unsigned int id = 0;
+		AlignmentResult result;
+
+		// loop over entries separated by ","
+		char *p = strtok(line, ",");
+		while (p != NULL)
+		{
+			// isolate key and value strings
+			char *pe = strstr(p, "=");
+			if (pe == NULL)
+			{
+				printf("ERROR in AlignmentResults::Add > entry missing = sign: %s.\n", p);
+				return 2;
+			}
+			
+			char *s_key = p;
+			
+			p = strtok(NULL, ",");
+
+			*pe = 0;
+
+			char *s_val = pe+1;
+
+			// interprete keys
+			if (strcmp(s_key, "id") == 0)
+			{
+				idSet = true;
+				id = atoi(s_val);
+				continue;
+			}
+
+			if (strcmp(s_key, "sh_x") == 0)
+			{
+				result.sh_x = atof(s_val);
+				continue;
+			}
+
+			printf("ERROR in AlignmentResults::Add > unknown key: %s.\n", s_key);
+			return 3;
+		}
+
+		if (!idSet)
+		{
+			printf("ERROR in AlignmentResults::Add > id not set on the following line:\n%s.\n", line);
+			return 4;
+		}
+
+		insert({id, result});
+
+		return 0;
+	}
+
+	TrackDataCollection Apply(const TrackDataCollection &input) const
+	{
+		TrackDataCollection output = input;
+
+		for (auto &it : output)
+		{
+			auto ait = find(it.first);
+			if (ait == end())
+			{
+				printf("ERROR in AlignmentResults::Apply > no alignment data for RP %u.\n", it.first);
+				exit(1);
+			}
+
+			it.second.x += ait->second.sh_x;
+		}
+
+		return output;
+	}
 };
 
 //----------------------------------------------------------------------------------------------------
 
-struct AlignmentResultsSet : public map<string, AlignmentResults>
+struct AlignmentResultsCollection : public map<string, AlignmentResults>
 {
-	void Write(FILE *f)
+	void Write(FILE *f) const
 	{
 		for (auto &p : *this)
 		{
@@ -52,7 +130,45 @@ struct AlignmentResultsSet : public map<string, AlignmentResults>
 
 	int Load(FILE *f)
 	{
-		// TODO
+		string label = "unknown";
+		AlignmentResults block;
+
+		while (!feof(f))
+		{
+			char line[300];
+			char *success = fgets(line, 300, f);
+
+			if (success == NULL)
+				break;
+
+			if (line[0] == '[')
+			{
+				if (block.size() > 0)
+					insert({label, block});
+
+				block.clear();
+
+				char *end = strstr(line, "]");
+				if (end == NULL)
+				{
+					printf("ERROR in AlignmentResultsCollection::Load > missing closing ].\n");
+					return 1;
+				}
+
+				*end = 0;
+
+				label = line+1;
+
+				continue;
+			}
+
+			if (block.Add(line) != 0)
+				return 2;
+		}
+
+		if (block.size() > 0)
+			insert({label, block});
+
 		return 0;
 	}
 };

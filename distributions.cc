@@ -1,5 +1,6 @@
-#include "input_files.h"
 #include "common.h"
+
+#include "input_files.h"
 #include "parameters.h"
 
 #include "stat.h"
@@ -25,8 +26,6 @@
 
 #include <vector>
 #include <string>
-
-//----------------------------------------------------------------------------------------------------
 
 using namespace std;
 using namespace edm;
@@ -86,22 +85,6 @@ struct Profile
 		h_stddev->Write();
 
 		gDirectory = dir_top;
-	}
-};
-
-//----------------------------------------------------------------------------------------------------
-
-struct TrackData
-{
-	bool valid = false;
-	double x = 0.;
-	double y = 0.;
-
-	void operator= (const TotemRPLocalTrack &ft)
-	{
-		valid = ft.isValid();
-		x = ft.getX0();
-		y = ft.getY0();
 	}
 };
 

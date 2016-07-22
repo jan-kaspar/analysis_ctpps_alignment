@@ -1,4 +1,6 @@
 #include "common.h"
+#include "alignment.h"
+
 #include "parameters.h"
 
 #include "stat.h"
@@ -13,8 +15,6 @@
 #include <string>
 
 using namespace std;
-
-#include "alignment.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -418,10 +418,10 @@ int main()
 	};
 
 	vector<RPData> rpData = {
-		{ "L_1_F", 3,   -5., -3. },
-		{ "L_1_N", 2,   -3., -1. },
-		{ "R_1_N", 102, -5., -3. },
-		{ "R_1_F", 103, -4., -2. }
+		{ "L_1_F", 3,   -4.7, -2.9 },
+		{ "L_1_N", 2,   -3.5, -0.5 },
+		{ "R_1_N", 102, -4.5, -2.6 },
+		{ "R_1_F", 103, -4.1, -2.1 }
 	};
 
 	// list of references

@@ -153,7 +153,7 @@ int main()
 			{
 				bool left = ((rpId / 100) == 0);
 
-				ProtonData proton = ReconstructProton({{rpId, tr[rpId]}}, left);
+				ProtonData proton = ReconstructProton({{rpId, tr_al[rpId]}}, left);
 
 				if (!proton.valid)
 					continue;
