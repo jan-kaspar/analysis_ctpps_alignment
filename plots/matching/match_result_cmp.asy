@@ -75,6 +75,8 @@ for (int rpi : rps.keys)
 
 	for (int dsi : datasets.keys)
 	{
+		write("    " + datasets[dsi]);
+
 		for (int ri : ref_label.keys)
 		{
 			for (int mi : methods.keys)
