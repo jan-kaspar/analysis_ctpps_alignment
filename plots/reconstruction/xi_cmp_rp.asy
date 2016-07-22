@@ -5,6 +5,11 @@ string topDir = "../../";
 
 string datasets[] = {
 	"run_physics_margin/274199",
+
+	"run_physics_no_margin/274244",
+	"run_physics_no_margin/274958",
+	"run_physics_no_margin/275125",
+	"run_physics_no_margin/275836",
 };
 
 int rp_ids[];
@@ -23,6 +28,9 @@ string alignments[] = {
 };
 
 string cut_option = "with cuts";
+
+xSizeDef = 10cm;
+xTicksDef = LeftTicks(0.05, 0.01);
 
 //----------------------------------------------------------------------------------------------------
 
@@ -49,9 +57,14 @@ for (int dsi : datasets.keys)
 		{
 			string f = topDir + datasets[dsi] + "/reconstruction_test.root";
 			RootObject obj = RootGetObject(f, alignments[ai]+"/"+cut_option+"/" + format("h_xi_%u", rp_ids[rpi]));
-			draw(obj, "vl", rp_pens[rpi]);
+			draw(obj, "vl", rp_pens[rpi], replace(rp_labels[rpi], "_", "\_"));
 		}
 	}
+
+	frame f_legend = BuildLegend();
+
+	NewPad(false);
+	attach(f_legend);
 }
 
 
