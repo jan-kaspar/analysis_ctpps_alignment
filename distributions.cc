@@ -128,6 +128,15 @@ int main()
 
 	// get input
 	InitInputFiles();
+	if (input_files.empty())
+	{
+		printf("WARNING: input_files empty.\n");
+		return 0;
+	}
+
+	for (const auto &f : input_files)
+		printf("+ %s\n", f.c_str());
+
 	fwlite::ChainEvent ev(input_files);
 
 	printf("* events in input chain: %llu\n", ev.size());

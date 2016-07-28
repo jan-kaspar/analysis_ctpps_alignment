@@ -6,9 +6,10 @@ string topDir = "../../";
 string datasets[] = {
 	"run_physics_margin/274199",
 
-	"run_physics_no_margin/274244",
+	//"run_physics_no_margin/274244",
 	"run_physics_no_margin/274958",
-	"run_physics_no_margin/275125",
+	//"run_physics_no_margin/275125",
+	//"run_physics_no_margin/275376",
 	"run_physics_no_margin/275836",
 };
 
@@ -33,6 +34,11 @@ xSizeDef = 10cm;
 xTicksDef = LeftTicks(0.05, 0.01);
 
 //----------------------------------------------------------------------------------------------------
+
+NewPad(false);
+label(cut_option);
+
+NewRow();
 
 NewPad(false);
 for (int ai : alignments.keys)
@@ -68,4 +74,4 @@ for (int dsi : datasets.keys)
 }
 
 
-GShipout(hSkip=1mm, vSkip=1mm);
+GShipout(hSkip=1mm, vSkip=1mm, margin=1mm);

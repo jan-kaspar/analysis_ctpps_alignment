@@ -32,7 +32,7 @@ string alignments[] = {
 
 string cut_option = "with cuts";
 
-xSizeDef = 10cm;
+xSizeDef = 8cm;
 xTicksDef = LeftTicks(0.05, 0.01);
 
 //----------------------------------------------------------------------------------------------------
@@ -53,6 +53,11 @@ real GetNormalisation(RootObject obj, real xi_min, real xi_max)
 }
 
 //----------------------------------------------------------------------------------------------------
+
+NewPad(false);
+label(cut_option);
+
+NewRow();
 
 NewPad(false);
 for (int rpi : rp_ids.keys)
@@ -90,4 +95,4 @@ for (int ai : alignments.keys)
 }
 
 
-GShipout(hSkip=1mm, vSkip=1mm);
+GShipout(hSkip=1mm, vSkip=1mm, margin=1mm);

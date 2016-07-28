@@ -155,15 +155,18 @@ do
 					exit 1
 				fi
 			else
-				if [ "$src_file" == "" ]
+				if [ -f "$1/parameters.h" ]
 				then
-					echo "ERROR: source file not defined, skipping directory '$1'."
-				else
-					if [ "$runInBackground" == "y" ]
+					if [ "$src_file" == "" ]
 					then
-						RunOneDir "$src_file" "$1" "1" "$run_options" &
+						echo "ERROR: source file not defined, skipping directory '$1'."
 					else
-						RunOneDir "$src_file" "$1" "1" "$run_options"
+						if [ "$runInBackground" == "y" ]
+						then
+							RunOneDir "$src_file" "$1" "1" "$run_options" &
+						else
+							RunOneDir "$src_file" "$1" "1" "$run_options"
+						fi
 					fi
 				fi
 			fi

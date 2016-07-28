@@ -59,6 +59,7 @@ xTicksDef = LeftTicks(rotate(90)*Label(""), TickLabels, Step=1, step=0);
 
 //----------------------------------------------------------------------------------------------------
 
+/*
 for (int rpi : rps.keys)
 {
 	NewPad(false);
@@ -66,10 +67,14 @@ for (int rpi : rps.keys)
 }
 
 NewRow();
+*/
 
 for (int rpi : rps.keys)
 {
 	write(rps[rpi]);
+
+	if (rpi == 2)
+		NewRow();
 
 	NewPad("dataset", "shift$\ung{mm}$");
 
@@ -98,6 +103,8 @@ for (int rpi : rps.keys)
 	}
 
 	xlimits(-1, datasets.length);
+
+	AttachLegend(replace(rps[rpi], "_", "\_"));
 }
 
 //----------------------------------------------------------------------------------------------------

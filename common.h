@@ -45,6 +45,8 @@ struct SelectionRange
 
 // parameter defaults
 
+unsigned int lhc_fill = 0;
+
 bool alignment_run = false;
 
 double n_si = 3.;
