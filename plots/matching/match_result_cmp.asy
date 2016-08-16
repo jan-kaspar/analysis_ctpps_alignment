@@ -4,16 +4,44 @@ import pad_layout;
 string topDir = "../../";
 
 string datasets[] = {
-	"run_physics_margin/274199",
-	"run_physics_margin/274241",
-	"run_physics_no_margin/274244",
-	"run_physics_no_margin/274388",
-	"run_physics_no_margin/274958",
-	"run_physics_no_margin/274969",
-	"run_physics_no_margin/275125",
-	"run_physics_no_margin/275310",
-	"run_physics_no_margin/275376",
-	"run_physics_no_margin/275836",
+//	"run_physics_margin/274199",
+//	"run_physics_margin/274241",
+//	"run_physics_no_margin/274244",
+//	"run_physics_no_margin/274388",
+//	"run_physics_no_margin/274958",
+//	"run_physics_no_margin/274969",
+//	"run_physics_no_margin/275125",
+//	"run_physics_no_margin/275310",
+//	"run_physics_no_margin/275376",
+//	"run_physics_no_margin/275836",
+
+	"run_physics_margin/fill_4947",
+	"run_physics_margin/fill_4953",
+	"run_physics_margin/fill_4961",
+	"run_physics_margin/fill_4964",
+	
+	"run_physics_no_margin/fill_4964",
+	"run_physics_margin/fill_4976",
+
+	"run_physics_no_margin/fill_4985",
+	"run_physics_no_margin/fill_4988",
+	"run_physics_no_margin/fill_4990",
+	"run_physics_no_margin/fill_5005",
+	"run_physics_no_margin/fill_5013",
+	"run_physics_no_margin/fill_5017",
+	"run_physics_no_margin/fill_5020",
+	"run_physics_no_margin/fill_5021",
+	"run_physics_no_margin/fill_5024",
+	"run_physics_no_margin/fill_5026",
+	"run_physics_no_margin/fill_5027",
+	"run_physics_no_margin/fill_5028",
+	"run_physics_no_margin/fill_5029",
+	"run_physics_no_margin/fill_5030",
+	"run_physics_no_margin/fill_5038",
+	"run_physics_no_margin/fill_5043",
+	"run_physics_no_margin/fill_5045",
+	"run_physics_no_margin/fill_5048",
+	"run_physics_no_margin/fill_5052",
 };
 
 string ref_label[];
@@ -39,7 +67,7 @@ string rps[] = {
 
 yTicksDef = RightTicks(0.2, 0.1);
 
-xSizeDef = 8cm;
+xSizeDef = 12cm;
 
 //----------------------------------------------------------------------------------------------------
 
@@ -49,7 +77,7 @@ string TickLabels(real x)
 	{
 		string ds = datasets[(int)x];
 		string bits[] = split(ds, "/");
-		return bits[1];
+		return replace(bits[1], "fill_", "");
 	} else {
 		return "";
 	}
@@ -76,7 +104,7 @@ for (int rpi : rps.keys)
 	if (rpi == 2)
 		NewRow();
 
-	NewPad("dataset", "shift$\ung{mm}$");
+	NewPad("fill", "shift$\ung{mm}$");
 
 	for (int dsi : datasets.keys)
 	{

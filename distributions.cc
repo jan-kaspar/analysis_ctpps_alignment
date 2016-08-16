@@ -187,6 +187,7 @@ int main()
 
 	// loop over the chain entries
 	unsigned long int ev_count = 0;
+	unsigned long int tr_sel_count = 0;
 	for (ev.toBegin(); ! ev.atEnd(); ++ev)
 	{
 		/*
@@ -196,6 +197,10 @@ int main()
 		*/
 
 		ev_count++;
+
+		// TODO: comment out
+		if (tr_sel_count > 2000000)
+			break;
 
 		// default track data
 		TrackData tr_L_1_F;
@@ -258,6 +263,8 @@ int main()
 
 			if (cuts_passed)
 			{
+				tr_sel_count++;
+
 				h_q_cut1_after->Fill(cq1);
 				h_q_cut3_after->Fill(cq3);
 
@@ -297,6 +304,8 @@ int main()
 
 			if (cuts_passed)
 			{
+				tr_sel_count++;
+
 				h_q_cut2_after->Fill(cq2);
 				h_q_cut4_after->Fill(cq4);
 
@@ -314,6 +323,7 @@ int main()
 	}
 
 	printf("* events processed: %lu\n", ev_count);
+	printf("* tracks selected (both arms): %lu\n", tr_sel_count);
 
 	// save histograms
 	gDirectory = f_out;

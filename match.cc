@@ -456,7 +456,7 @@ int main()
 	TFile *f_out = new TFile("match.root", "recreate");
 
 	// prepare results
-	AlignmentResultsSet results;
+	AlignmentResultsCollection results;
 
 	// processing per rp
 	for (const auto &rpd : rpData)
