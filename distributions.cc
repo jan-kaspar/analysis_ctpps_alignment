@@ -191,9 +191,10 @@ int main()
 	{
 		/*
 		// TODO: comment out
-		if (ev_count > 10000000)
+		if (ev_count > 1000000)
 			break;
 		*/
+
 		ev_count++;
 
 		// default track data
