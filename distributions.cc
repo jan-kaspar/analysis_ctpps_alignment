@@ -1,5 +1,7 @@
 #include "common.h"
 
+#include "shared_track.h"
+
 #include "input_files.h"
 #include "parameters.h"
 

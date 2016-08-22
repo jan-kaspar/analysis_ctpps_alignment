@@ -1,6 +1,8 @@
 #include "common.h"
-#include "alignment.h"
-#include "reconstruction.h"
+
+#include "shared_track.h"
+#include "shared_alignment.h"
+#include "shared_reconstruction.h"
 
 #include "input_files.h"
 #include "parameters.h"
@@ -92,6 +94,7 @@ int main()
 
 	// loop over the chain entries
 	unsigned long int ev_count = 0;
+	unsigned long int tr_sel_count = 0;
 	for (ev.toBegin(); ! ev.atEnd(); ++ev)
 	{
 		/*
@@ -100,6 +103,12 @@ int main()
 			break;
 		*/
 		ev_count++;
+
+		/*
+		// TODO: comment out
+		if (tr_sel_count > 2000000)
+			break;
+		*/
 
 		// get track data
 		fwlite::Handle< DetSetVector<TotemRPLocalTrack> > tracks;
@@ -137,6 +146,10 @@ int main()
 		bool cuts_L = tr[2].valid && tr[3].valid && (!cut1_apply || cut1_val) && (!cut3_apply || cut3_val);
 		bool cuts_R = tr[102].valid && tr[103].valid && (!cut2_apply || cut2_val) && (!cut4_apply || cut4_val);
 
+		// increase counter
+		if (cuts_L || cuts_R)
+			tr_sel_count++;
+
 		// loop over alignments
 		for (unsigned int mi = 0; mi < methods.size(); ++mi)
 		{
@@ -168,6 +181,7 @@ int main()
 	}
 
 	printf("* events processed: %lu\n", ev_count);
+	printf("* tracks selected: %lu\n", tr_sel_count);
 
 	// save plots
 	for (const auto &mit : plots)

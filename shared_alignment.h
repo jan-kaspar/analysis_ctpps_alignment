@@ -108,11 +108,24 @@ struct AlignmentResults : public map<unsigned int, AlignmentResult>
 
 struct AlignmentResultsCollection : public map<string, AlignmentResults>
 {
+	int Write(const string &fn) const
+	{
+		FILE *f = fopen(fn.c_str(), "w");
+		if (!f)
+			return -1;
+
+		Write(f);
+
+		fclose(f);
+
+		return 0;
+	}
+
 	void Write(FILE *f) const
 	{
 		for (auto &p : *this)
 		{
-			fprintf(f, "[%s]\n", p.first.c_str());
+			fprintf(f, "\n[%s]\n", p.first.c_str());
 			p.second.Write(f);
 		}
 	}
@@ -140,6 +153,9 @@ struct AlignmentResultsCollection : public map<string, AlignmentResults>
 
 			if (success == NULL)
 				break;
+
+			if (line[0] == '\n')
+				continue;
 
 			if (line[0] == '[')
 			{

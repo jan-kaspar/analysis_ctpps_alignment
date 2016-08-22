@@ -1,5 +1,7 @@
 #include "common.h"
-#include "alignment.h"
+
+#include "shared_track.h"
+#include "shared_alignment.h"
 
 #include "parameters.h"
 
@@ -385,7 +387,9 @@ void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max,
+void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref,
+		double x_cut_off,
+		double sh_min, double sh_max,
 		double &r_method_x, double &r_method_y)
 {
 	TDirectory *d_top = gDirectory;
@@ -396,7 +400,9 @@ void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const 
 
 	gDirectory = d_top->mkdir("method y");
 	printf("    method y\n");
-	DoMatchMethodY(g_test, r_test, g_ref, r_ref, sh_min, sh_max, r_method_y);
+	SelectionRange r_ref_cut_off = r_ref;
+	r_ref_cut_off.max = min(r_ref_cut_off.max, x_cut_off);
+	DoMatchMethodY(g_test, r_test, g_ref, r_ref_cut_off, sh_min, sh_max, r_method_y);
 
 	gDirectory = d_top;
 }
@@ -415,13 +421,14 @@ int main()
 		string name;
 		unsigned int id;
 		double sh_min, sh_max;	// in mm
+		double x_cut_off;		// in mm
 	};
 
 	vector<RPData> rpData = {
-		{ "L_1_F", 3,   -4.7, -2.9 },
-		{ "L_1_N", 2,   -3.5, -0.5 },
-		{ "R_1_N", 102, -4.5, -2.6 },
-		{ "R_1_F", 103, -4.1, -2.1 }
+		{ "L_1_F", 3,   -4.7, -2.9, 10.7 },
+		{ "L_1_N", 2,   -3.5, -0.5, 11.0 },
+		{ "R_1_N", 102, -4.5, -2.6, 8.0 },
+		{ "R_1_F", 103, -4.1, -2.1, 9.0 }
 	};
 
 	// list of references
@@ -494,7 +501,7 @@ int main()
 			double r_method_x=0., r_method_y=0.;
 
 			gDirectory = ref_dir;
-			DoMatch(g_test, it_test->second, g_ref, it_ref->second, rpd.sh_min, rpd.sh_max, r_method_x, r_method_y);
+			DoMatch(g_test, it_test->second, g_ref, it_ref->second, rpd.x_cut_off, rpd.sh_min, rpd.sh_max, r_method_x, r_method_y);
 
 			S1 += 1.;
 			S_method_x += r_method_x;

@@ -15,41 +15,8 @@ function PrintUsage()
 
 #----------------------------------------------------------------------------------------------------
 
+doNotRun="f"
 runInBackground="y"
-
-#----------------------------------------------------------------------------------------------------
-
-function RunOneDiagonal()
-{
-	local tag="$1"
-	local dir="$2"
-	local par_more="$3"
-	local diag="$4"
-	local options="$5"
-
-	local optionsStr=""
-	if [ ! "$options" == "" ]
-	then
-		optionsStr=" ($options)"
-	fi
-
-	label="$tag @ $dir:$diag"
-	log="${tag}_${diag}.log_run"
-
-	echo "$label > running$optionsStr"
-	"./$exe_file" "$diag" $options &> "$log"
-	errCode="$?"
-	case "$errCode" in
-		0)
-			echo "$label > done"
-			;;
-
-		*)
-			echo "$label > run error ($errCode)"
-			if [ "$par_more" -eq 1 ]; then tail -n 5 "$log"; fi
-			;;
-	esac
-}
 
 #----------------------------------------------------------------------------------------------------
 
@@ -91,6 +58,12 @@ function RunOneDir()
 	if [ ! -s "$tag.log_compile" ]
 	then
 		rm "$tag.log_compile"
+	fi
+
+	# stop if doNotRun flag is on
+	if [ "$doNotRun" == "y" ]
+	then
+		return;
 	fi
 
 	# run
@@ -137,6 +110,10 @@ do
 		"-O")
 			shift
 			run_options="$1"
+			;;
+
+		"-no-run" | "-dno")
+			doNotRun="y"
 			;;
 
 		"-no-bckg")

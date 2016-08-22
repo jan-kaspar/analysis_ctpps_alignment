@@ -3,9 +3,9 @@ import pad_layout;
 
 string topDir = "../../";
 
-//string dataset = "run_physics_margin/274199";
-//string dataset = "run_physics_no_margin/274388";
-string dataset = "run_physics_no_margin/274958";
+string dataset = "run_physics_no_margin/fill_4964";
+//string dataset = "run_physics_no_margin/fill_5024";
+//string dataset = "run_physics_no_margin/fill_5052";
 
 string reference = "10081";
 
@@ -39,7 +39,7 @@ draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_ref_sel"), "d0,eb
 draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_bef"), "d0,eb", blue);
 draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_aft"), "d0,eb", red);
 
-xlimits(3, 15, Crop);
+xlimits(4, 17, Crop);
 
 
 NewPad("$x\ung{mm}$", "std.~dev.~of $y\ung{mm}$");
@@ -50,7 +50,7 @@ draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_ref_sel"), "d0,eb
 draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_bef"), "d0,eb", blue);
 draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_aft"), "d0,eb", red);
 
-limits((2, 0), (15, 3), Crop);
+limits((4, 0), (17, 3), Crop);
 
 
 GShipout(hSkip=10mm, vSkip=1mm);

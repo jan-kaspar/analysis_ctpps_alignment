@@ -4,14 +4,36 @@ import pad_layout;
 string topDir = "../../";
 
 string datasets[] = {
-	"run_physics_margin/274199",
-	"run_physics_margin/274241",
+	"run_physics_margin/fill_4947",
+//	"run_physics_margin/fill_4953",
+//	"run_physics_margin/fill_4961",
+	"run_physics_margin/fill_4964",
+	
+//	"run_physics_no_margin/fill_4964",
+//	"run_physics_margin/fill_4976",
 
-	"run_physics_no_margin/274244",
-	"run_physics_no_margin/274958",
-	"run_physics_no_margin/275125",
-	//"run_physics_no_margin/275376",
-	"run_physics_no_margin/275836",
+//	"run_physics_no_margin/fill_4985",
+	"run_physics_no_margin/fill_4988",
+//	"run_physics_no_margin/fill_4990",
+//	"run_physics_no_margin/fill_5005",
+//	"run_physics_no_margin/fill_5013",
+//	"run_physics_no_margin/fill_5017",
+//	"run_physics_no_margin/fill_5020",
+//	"run_physics_no_margin/fill_5021",
+//	"run_physics_no_margin/fill_5024",
+	"run_physics_no_margin/fill_5026",
+//	"run_physics_no_margin/fill_5027",
+//	"run_physics_no_margin/fill_5028",
+//	"run_physics_no_margin/fill_5029",
+//	"run_physics_no_margin/fill_5030",
+//	"run_physics_no_margin/fill_5038",
+//	"run_physics_no_margin/fill_5043",
+//	"run_physics_no_margin/fill_5045",
+	"run_physics_no_margin/fill_5048",
+//	"run_physics_no_margin/fill_5052",
+
+	"run_alignment/10077",
+	"run_alignment/10081",
 };
 
 int rp_ids[];
@@ -32,8 +54,15 @@ string alignments[] = {
 
 string cut_option = "with cuts";
 
+bool cropToDetails = true;
+
+real x_min[] = {0.05, 0.05, 0.05,  0.06};
+real x_max[] = {0.11, 0.11, 0.14,  0.14};
+real y_min[] = {0.03, 0.03, 0.015, 0.015};
+real y_max[] = {0.04, 0.04, 0.020, 0.020};
+
 xSizeDef = 8cm;
-xTicksDef = LeftTicks(0.05, 0.01);
+xTicksDef = (cropToDetails) ? LeftTicks(0.02, 0.01) : LeftTicks(0.05, 0.01);
 
 //----------------------------------------------------------------------------------------------------
 
@@ -84,8 +113,15 @@ for (int ai : alignments.keys)
 
 			real norm = GetNormalisation(obj, rp_norm_min[rpi], rp_norm_max[rpi]);
 
-			draw(scale(1., 1./norm), obj, "vl", StdPen(dsi), replace(datasets[dsi], "_", "\_"));
+			bool alignmentRun = (find(datasets[dsi], "fill_") == -1);
+
+			pen p = (alignmentRun) ? black+1pt : StdPen(dsi+1);
+
+			draw(scale(1., 1./norm), obj, "vl", p, replace(datasets[dsi], "_", "\_"));
 		}
+
+		if (cropToDetails)
+			limits((x_min[rpi], y_min[rpi]), (x_max[rpi], y_max[rpi]), Crop);
 	}
 
 	frame f_legend = BuildLegend();

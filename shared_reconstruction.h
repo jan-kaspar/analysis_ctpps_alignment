@@ -21,7 +21,7 @@ map<unsigned int, TSpline3 *> m_s_x_to_xi;
 
 void InitReconstruction()
 {
-	TFile *f_in = TFile::Open("../../optics.root");
+	TFile *f_in = TFile::Open("/afs/cern.ch/work/j/jkaspar/analyses/ctpps/optics/optics.root");
 
 	if (!f_in)
 	{
@@ -73,7 +73,6 @@ ProtonData ReconstructProton(const map<unsigned int, TrackData> &tracks, bool le
 	ProtonData result;
 	result.valid = false;
 
-	// TODO
 	//double D_1_F, D_1_N; // in mm
 	unsigned int id_1_F, id_1_N;
 
