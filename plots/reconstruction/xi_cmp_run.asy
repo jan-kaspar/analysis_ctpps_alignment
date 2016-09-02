@@ -32,8 +32,25 @@ string datasets[] = {
 	"run_physics_no_margin/fill_5048",
 //	"run_physics_no_margin/fill_5052",
 
+	"run_physics_no_margin/fill_5261",
+//	"run_physics_no_margin/fill_5264",
+	"run_physics_no_margin/fill_5265",
+	"run_physics_no_margin/fill_5266",
+	"run_physics_no_margin/fill_5267",
+
 	"run_alignment/10077",
-	"run_alignment/10081",
+//	"run_alignment/10081",
+};
+
+string datasets[] = {
+	"run_physics_no_margin/fill_5261",
+//	"run_physics_no_margin/fill_5264",
+	"run_physics_no_margin/fill_5265",
+	"run_physics_no_margin/fill_5266",
+	"run_physics_no_margin/fill_5267",
+
+	"run_alignment/10077",
+//	"run_alignment/10081",
 };
 
 int rp_ids[];
@@ -49,17 +66,18 @@ rp_ids.push(103); rp_labels.push("R_1_F"); rp_norm_min.push(0.095); rp_norm_max.
 string alignments[] = {
 //	"none",
 	"method x",
-	"method y",
+//	"method y",
 };
 
 string cut_option = "with cuts";
 
-bool cropToDetails = true;
+bool cropToDetails = false;
 
 real x_min[] = {0.05, 0.05, 0.05,  0.06};
 real x_max[] = {0.11, 0.11, 0.14,  0.14};
 real y_min[] = {0.03, 0.03, 0.015, 0.015};
 real y_max[] = {0.04, 0.04, 0.020, 0.020};
+
 
 xSizeDef = 8cm;
 xTicksDef = (cropToDetails) ? LeftTicks(0.02, 0.01) : LeftTicks(0.05, 0.01);
@@ -108,14 +126,18 @@ for (int ai : alignments.keys)
 
 		for (int dsi : datasets.keys)
 		{
+			bool alignmentRun = (find(datasets[dsi], "run_alignment") != -1);
+
+			string alignments_eff = alignments[ai];
+			if (alignmentRun)
+				alignments_eff = "none";
+
 			string f = topDir + datasets[dsi] + "/reconstruction_test.root";
-			RootObject obj = RootGetObject(f, alignments[ai]+"/"+cut_option+"/" + format("h_xi_%u", rp_ids[rpi]));
+			RootObject obj = RootGetObject(f, alignments_eff+"/"+cut_option+"/" + format("h_xi_%u", rp_ids[rpi]));
 
 			real norm = GetNormalisation(obj, rp_norm_min[rpi], rp_norm_max[rpi]);
 
-			bool alignmentRun = (find(datasets[dsi], "fill_") == -1);
-
-			pen p = (alignmentRun) ? black+1pt : StdPen(dsi+1);
+			pen p = (alignmentRun) ? black+2pt : StdPen(dsi+1);
 
 			draw(scale(1., 1./norm), obj, "vl", p, replace(datasets[dsi], "_", "\_"));
 		}

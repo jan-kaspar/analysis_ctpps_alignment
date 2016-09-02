@@ -4,14 +4,20 @@ import pad_layout;
 string topDir = "../../";
 
 string datasets[] = {
-	"run_alignment/10077",
-	"run_alignment/10079",
-	"run_alignment/10080",
-	"run_alignment/10081",
-	"run_alignment/10082",
+//	"run_alignment/10077",
+//	"run_alignment/10079",
+//	"run_alignment/10080",
+//	"run_alignment/10081",
+//	"run_alignment/10082",
 
 //	"run_physics/with_margin",
 //	"run_physics/no_margin",
+
+	"run_physics_no_margin/fill_5261",
+	"run_physics_no_margin/fill_5264",
+	"run_physics_no_margin/fill_5265",
+	"run_physics_no_margin/fill_5266",
+	"run_physics_no_margin/fill_5267",
 };
 
 string rps[] = {

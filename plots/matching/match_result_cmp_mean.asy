@@ -42,15 +42,19 @@ string datasets[] = {
 	"run_physics_no_margin/fill_5045",
 	"run_physics_no_margin/fill_5048",
 	"run_physics_no_margin/fill_5052",
+
+	"run_physics_no_margin/fill_5261",
+	"run_physics_no_margin/fill_5264",
+	"run_physics_no_margin/fill_5265",
+	"run_physics_no_margin/fill_5266",
+	"run_physics_no_margin/fill_5267",
 };
 
 string ref_label[];
-pen ref_pen[];
-real ref_offset[];
 
-ref_label.push("10077"); ref_pen.push(blue); ref_offset.push(-0.2);
-ref_label.push("10079"); ref_pen.push(red); ref_offset.push(-0.0);
-ref_label.push("10081"); ref_pen.push(heavygreen); ref_offset.push(+0.2);
+ref_label.push("10077");
+ref_label.push("10079");
+ref_label.push("10081");
 
 string methods[];
 mark method_markers[];
@@ -65,9 +69,12 @@ string rps[] = {
 	"R_1_F",
 };
 
+real rp_shift_m[] =    { -3.65, -1.15, -3.32, -2.96 };
+real rp_shift_no_m[] = { -4.17,    0., -3.93, -3.57 };
+
 yTicksDef = RightTicks(0.2, 0.1);
 
-xSizeDef = 14cm;
+xSizeDef = 12cm;
 
 //----------------------------------------------------------------------------------------------------
 
@@ -105,44 +112,72 @@ for (int rpi : rps.keys)
 		NewRow();
 
 	NewPad("fill", "shift$\ung{mm}$");
+	//scale(Linear, Linear(true));
+
+	if (rp_shift_m[rpi] != 0)
+	{
+		real sh = rp_shift_m[rpi], unc = 0.1;
+		real fill_min = -1, fill_max = 6;
+		draw((fill_min, sh+unc)--(fill_max, sh+unc), black+dashed);
+		draw((fill_min, sh)--(fill_max, sh), black+1pt);
+		draw((fill_min, sh-unc)--(fill_max, sh-unc), black+dashed);
+		draw((fill_max, sh-2*unc), invisible);
+		draw((fill_max, sh+2*unc), invisible);
+	}
+	
+	if (rp_shift_no_m[rpi] != 0)
+	{
+		real sh = rp_shift_no_m[rpi], unc = 0.1;
+		real fill_min = 3, fill_max = datasets.length;
+		draw((fill_min, sh+unc)--(fill_max, sh+unc), black+dashed);
+		draw((fill_min, sh)--(fill_max, sh), black+1pt);
+		draw((fill_min, sh-unc)--(fill_max, sh-unc), black+dashed);
+		//filldraw((fill_min, sh-unc)--(fill_max, sh-unc)--(fill_max, sh+unc)--(fill_min, sh+unc)--cycle, black+opacity(0.1), nullpen);
+		draw((fill_max, sh-2*unc), invisible);
+		draw((fill_max, sh+2*unc), invisible);
+	}
 
 	for (int dsi : datasets.keys)
 	{
 		write("    " + datasets[dsi]);
 
-		for (int ri : ref_label.keys)
-		{
-			for (int mi : methods.keys)
-			{
-				RootObject obj = RootGetObject(topDir + datasets[dsi]+"/match.root", rps[rpi] + "/" + ref_label[ri] + "/" + methods[mi] + "/g_results", error=false);
-				if (!obj.valid)
-					continue;
+		pen p = (find(datasets[dsi], "no_margin") == -1) ? blue : red;
 
+		for (int mi : methods.keys)
+		{
+			real S1=0, Ss=0, Su=0;
+
+			for (int ri : ref_label.keys)
+			{
+				RootGetObject(topDir + datasets[dsi]+"/match.root", rps[rpi] + "/" + ref_label[ri] + "/" + methods[mi] + "/g_results");
 				real ax[] = { 0. };
 				real ay[] = { 0. };
-				obj.vExec("GetPoint", 0, ax, ay); real bsh = ay[0];
-				obj.vExec("GetPoint", 1, ax, ay); real bsh_unc = ay[0];
+				robj.vExec("GetPoint", 0, ax, ay); real bsh = ay[0];
+				robj.vExec("GetPoint", 1, ax, ay); real bsh_unc = ay[0];
 	
-				real x = dsi + ref_offset[ri];
-	
-				pen p = ref_pen[ri];
+				S1 += 1;
+				Ss += bsh;		
+				Su += bsh_unc;		
+			}
 			
-				draw((x, bsh), method_markers[mi]+p);
-				draw((x, bsh-bsh_unc)--(x, bsh+bsh_unc), p);
+			real x = dsi;
+
+			real m_sh = Ss / S1;
+			real u_sh = Su / S1;
+
+			bool pointValid = (fabs(m_sh) > 0.01);
+
+			if (pointValid)
+			{
+				draw((x, m_sh), method_markers[mi]+p);
+				draw((x, m_sh-u_sh)--(x, m_sh+u_sh), p);
 			}
 		}
 	}
 
-	xlimits(-1, datasets.length);
+	xlimits(-1, datasets.length, Crop);
 
 	AttachLegend(replace(rps[rpi], "_", "\_"));
 }
-
-//----------------------------------------------------------------------------------------------------
-
-NewPad(false);
-for (int ri : ref_label.keys)
-	AddToLegend(ref_label[ri], ref_pen[ri]);
-AttachLegend();
 
 GShipout(hSkip=5mm, vSkip=1mm);

@@ -106,7 +106,7 @@ int main()
 
 		/*
 		// TODO: comment out
-		if (tr_sel_count > 2000000)
+		if (tr_sel_count > 200000)
 			break;
 		*/
 

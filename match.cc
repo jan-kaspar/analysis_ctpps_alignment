@@ -126,6 +126,9 @@ void BuildStdDevProfile(TGraph *g_input, double x_shift, const SelectionRange &r
 void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max,
 		double &result)
 {
+	printf("        test range: %.3f to %.3f\n", r_test.min, r_test.max);
+	printf("        ref range: %.3f to %.3f\n", r_ref.min, r_ref.max);
+
 	// prepare reference histogram
 	TH1D *h_ref = new TH1D("h_ref", ";x", 140, 2., 16.);
 	BuildHistogram(g_ref, 0., r_ref, h_ref);
@@ -279,6 +282,9 @@ void DoMatchMethodX(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref, double sh_min, double sh_max,
 		double &result)
 {
+	printf("        test range: %.3f to %.3f\n", r_test.min, r_test.max);
+	printf("        ref range: %.3f to %.3f\n", r_ref.min, r_ref.max);
+
 	// prepare reference histogram
 	TH1D *h_ref = new TH1D("h_ref", ";x", 140, 2., 16.);
 	BuildStdDevProfile(g_ref, 0., r_ref, h_ref);
@@ -387,17 +393,37 @@ void DoMatchMethodY(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref,
 
 //----------------------------------------------------------------------------------------------------
 
-void DoMatch(TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref,
+void DoMatch(unsigned int rpId,
+		TGraph *g_test, const SelectionRange &r_test, TGraph *g_ref, const SelectionRange &r_ref,
 		double x_cut_off,
 		double sh_min, double sh_max,
 		double &r_method_x, double &r_method_y)
 {
 	TDirectory *d_top = gDirectory;
 
+	// method x
 	gDirectory = d_top->mkdir("method x");
 	printf("    method x\n");
-	DoMatchMethodX(g_test, r_test, g_ref, r_ref, sh_min, sh_max, r_method_x);
+	SelectionRange r_test_x = r_test;
+	/*
+	if (rpId == 102 || rpId == 103)
+	{
+		r_test_x.min = max(r_test_x.min, 9.5);
+		r_test_x.max = min(r_test_x.max, 15.);
+	}
+	*/
 
+	/*
+	if (rpId == 102)
+		r_test_x.max = min(r_test_x.max, 11.7);
+
+	if (rpId == 103)
+		r_test_x.max = min(r_test_x.max, 10.4);
+	*/
+
+	DoMatchMethodX(g_test, r_test_x, g_ref, r_ref, sh_min, sh_max, r_method_x);
+
+	// method y
 	gDirectory = d_top->mkdir("method y");
 	printf("    method y\n");
 	SelectionRange r_ref_cut_off = r_ref;
@@ -501,7 +527,7 @@ int main()
 			double r_method_x=0., r_method_y=0.;
 
 			gDirectory = ref_dir;
-			DoMatch(g_test, it_test->second, g_ref, it_ref->second, rpd.x_cut_off, rpd.sh_min, rpd.sh_max, r_method_x, r_method_y);
+			DoMatch(rpd.id, g_test, it_test->second, g_ref, it_ref->second, rpd.x_cut_off, rpd.sh_min, rpd.sh_max, r_method_x, r_method_y);
 
 			S1 += 1.;
 			S_method_x += r_method_x;

@@ -10,21 +10,21 @@ string datasets[] = {
 	//"run_alignment/10081",
 	//"run_alignment/10082",
 
-	//"run_physics_margin/274199",
-	"run_physics_no_margin/274244",
-	"run_physics_no_margin/274388",
+	"run_physics_margin/fill_4947",
+
+	"run_physics_no_margin/fill_4988",
 };
 
 string quantities[] = {
-	"entries",
+//	"entries",
 	"mean",
-	"stddev"
+//	"stddev"
 };
 
 string quantity_labels[] = {
-	"$N$",
+//	"$N$",
 	"mean of $y\ung{mm}$",
-	"RMS of $y\ung{mm}$",
+//	"RMS of $y\ung{mm}$",
 };
 
 string rps[] = {
@@ -42,6 +42,8 @@ for (int rpi : rps.keys)
 	NewPad(false);
 	label("{\SetFontSizesXX " + replace(rps[rpi], "_", "\_") + "}");
 }
+
+frame f_leg;
 
 for (int qi : quantities.keys)
 {
@@ -71,7 +73,7 @@ for (int qi : quantities.keys)
 			*/
 
 			RootGetObject(topDir + datasets[dsi]+"/distributions.root", "profiles/" + rps[rpi] + "/h_" + q);
-			draw(t, robj, "vl", p);
+			draw(t, robj, "vl", p, replace(datasets[dsi], "_", "\_"));
 		}
 
 		if (q == "mean")
@@ -79,7 +81,13 @@ for (int qi : quantities.keys)
 
 		if (q == "stddev")
 			limits((0, 0), (20, +3), Crop);
+
+		f_leg = BuildLegend();
 	}
 }
+
+NewRow();
+NewPad(false);
+add(f_leg);
 
 GShipout(hSkip=1mm, vSkip=1mm);

@@ -36,6 +36,11 @@ string datasets[] = {
 //	"run_physics_no_margin/fill_5052",
 };
 
+string datasets[] = {
+	"run_alignment/10077",
+	"run_physics_margin/fill_4947",
+};
+
 int rp_ids[];
 string rp_labels[];
 pen rp_pens[];
@@ -81,7 +86,7 @@ for (int dsi : datasets.keys)
 	for (int ai : alignments.keys)
 	{
 		NewPad("$\xi$");
-		scale(Linear, Log);
+		//scale(Linear, Log(auto));
 
 		for (int rpi : rp_ids.keys)
 		{
@@ -90,6 +95,7 @@ for (int dsi : datasets.keys)
 			draw(obj, "vl", rp_pens[rpi], replace(rp_labels[rpi], "_", "\_"));
 		}
 
+		xlimits(0, 0.2, Crop);
 		//ylimits(1e1, 2e5, Crop);
 	}
 
