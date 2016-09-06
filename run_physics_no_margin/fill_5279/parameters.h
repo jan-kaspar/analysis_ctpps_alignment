@@ -2,10 +2,10 @@ void ApplySettings()
 {
 	lhc_fill = 5279;
 
-	cut1_a = -0.995; cut1_c = -0.807; cut1_si = 0.20;
-	cut2_a = -0.969; cut2_c = +0.429; cut2_si = 0.20;
-	cut3_a = -1.149; cut3_c = +0.076; cut3_si = 0.15;
-	cut4_a = -1.136; cut4_c = +0.037; cut4_si = 0.15;
+	cut1_a = -0.997; cut1_c = -0.781; cut1_si = 0.20;
+	cut2_a = -0.972; cut2_c = +0.460; cut2_si = 0.20;
+	cut3_a = -1.161; cut3_c = +0.075; cut3_si = 0.15;
+	cut4_a = -1.140; cut4_c = +0.025; cut4_si = 0.15;
 
 	selectionRangesX["L_1_F"] = SelectionRange(9.2, 16.5);
 	selectionRangesX["L_1_N"] = SelectionRange(8.3, 15.7);
