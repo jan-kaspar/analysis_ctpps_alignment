@@ -1,6 +1,6 @@
 void ApplySettings()
 {
-	lhc_fill = 279823;
+	lhc_fill = 5265;
 
 	cut1_a = -0.992; cut1_c = -0.825; cut1_si = 0.20;
 	cut2_a = -0.971; cut2_c = +0.451; cut2_si = 0.20;
