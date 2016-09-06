@@ -59,18 +59,15 @@ ref_label.push("10081");
 string methods[];
 mark method_markers[];
 
-methods.push("method y"); method_markers.push(mCi+2pt);
+//methods.push("method y"); method_markers.push(mCi+2pt);
 methods.push("method x"); method_markers.push(mCr+4pt);
 
-string rps[] = {
-	"L_1_F",
-	"L_1_N",
-	"R_1_N",
-	"R_1_F",
-};
-
-real rp_shift_m[] =    { -3.65, -1.15, -3.32, -2.96 };
-real rp_shift_no_m[] = { -4.17,    0., -3.93, -3.57 };
+string rps[], rp_labels[];
+real rp_shift_m[], rp_shift_no_m[];
+rps.push("L_1_F"); rp_labels.push("L-210-fr-hr"); rp_shift_m.push(-3.65); rp_shift_no_m.push(-4.17);
+rps.push("L_1_N"); rp_labels.push("L-210-nr-hr"); rp_shift_m.push(-1.15); rp_shift_no_m.push(-0.00);
+rps.push("R_1_N"); rp_labels.push("R-210-nr-hr"); rp_shift_m.push(-3.32); rp_shift_no_m.push(-3.93);
+rps.push("R_1_F"); rp_labels.push("R-210-fr-hr"); rp_shift_m.push(-2.96); rp_shift_no_m.push(-3.57);
 
 yTicksDef = RightTicks(0.2, 0.1);
 
@@ -177,7 +174,7 @@ for (int rpi : rps.keys)
 
 	xlimits(-1, datasets.length, Crop);
 
-	AttachLegend(replace(rps[rpi], "_", "\_"));
+	AttachLegend(replace(rp_labels[rpi], "_", "\_"));
 }
 
 GShipout(hSkip=5mm, vSkip=1mm);

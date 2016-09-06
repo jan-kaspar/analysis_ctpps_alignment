@@ -43,11 +43,15 @@ string datasets[] = {
 };
 
 string datasets[] = {
+	"run_physics_margin/fill_4947",
+//	"run_physics_margin/fill_4964",
+
+	"run_physics_no_margin/fill_4988",
+	"run_physics_no_margin/fill_5026",
+	"run_physics_no_margin/fill_5048",
+
 	"run_physics_no_margin/fill_5261",
-//	"run_physics_no_margin/fill_5264",
-	"run_physics_no_margin/fill_5265",
-	"run_physics_no_margin/fill_5266",
-	"run_physics_no_margin/fill_5267",
+//	"run_physics_no_margin/fill_5266",
 
 	"run_alignment/10077",
 //	"run_alignment/10081",
@@ -58,10 +62,10 @@ string rp_labels[];
 real rp_norm_min[];
 real rp_norm_max[];
 
-rp_ids.push(3); rp_labels.push("L_1_F"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
-rp_ids.push(2); rp_labels.push("L_1_N"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
-rp_ids.push(102); rp_labels.push("R_1_N"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
-rp_ids.push(103); rp_labels.push("R_1_F"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
+rp_ids.push(3); rp_labels.push("L-210-fr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
+rp_ids.push(2); rp_labels.push("L-210-nr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
+rp_ids.push(102); rp_labels.push("R-210-nr-hr"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
+rp_ids.push(103); rp_labels.push("R-210-fr-hr"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
 
 string alignments[] = {
 //	"none",
@@ -69,7 +73,7 @@ string alignments[] = {
 //	"method y",
 };
 
-string cut_option = "with cuts";
+string cut_option = "without cuts";
 
 bool cropToDetails = false;
 

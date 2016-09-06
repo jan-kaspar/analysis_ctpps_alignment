@@ -39,6 +39,9 @@ using namespace edm;
 struct PlotGroup
 {
 	map<unsigned int, TH1D*> h_xi;
+	map<unsigned int, TH1D*> h_x;
+	map<unsigned int, TH2D*> h2_y_vs_x;
+	TH2D *h2_x_F_L_vs_x_N_L, *h2_x_F_R_vs_x_N_R;
 
 	PlotGroup()
 	{
@@ -46,6 +49,19 @@ struct PlotGroup
 		h_xi[3] = new TH1D("", "", 200, 0., 0.2);
 		h_xi[102] = new TH1D("", "", 200, 0., 0.2);
 		h_xi[103] = new TH1D("", "", 200, 0., 0.2);
+
+		h_x[2] = new TH1D("", "", 200, 0., 20.);
+		h_x[3] = new TH1D("", "", 200, 0., 20.);
+		h_x[102] = new TH1D("", "", 200, 0., 20.);
+		h_x[103] = new TH1D("", "", 200, 0., 20.);
+
+		h2_y_vs_x[2] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
+		h2_y_vs_x[3] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
+		h2_y_vs_x[102] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
+		h2_y_vs_x[103] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
+
+		h2_x_F_L_vs_x_N_L = new TH2D("", ";x_{N};x_{F}", 100, 0., 20., 100, 0., 20.);
+		h2_x_F_R_vs_x_N_R = new TH2D("", ";x_{N};x_{F}", 100, 0., 20., 100, 0., 20.);
 	}
 
 	void Write() const
@@ -56,6 +72,23 @@ struct PlotGroup
 			sprintf(buf, "h_xi_%u", it.first);
 			it.second->Write(buf);
 		}
+
+		for (const auto &it : h_x)
+		{
+			char buf[100];
+			sprintf(buf, "h_x_%u", it.first);
+			it.second->Write(buf);
+		}
+
+		for (const auto &it : h2_y_vs_x)
+		{
+			char buf[100];
+			sprintf(buf, "h2_y_vs_x_%u", it.first);
+			it.second->Write(buf);
+		}
+
+		h2_x_F_L_vs_x_N_L->Write("h2_x_F_L_vs_x_N_L");
+		h2_x_F_R_vs_x_N_R->Write("h2_x_F_R_vs_x_N_R");
 	}
 };
 
@@ -142,9 +175,12 @@ int main()
 
 		double cq4 = tr[103].y + cut4_a * tr[102].y + cut4_c;
 		bool cut4_val = (fabs(cq4) < n_si * cut4_si);
+		
+		bool all_tracks_L = tr[2].valid && tr[3].valid;
+		bool all_tracks_R = tr[102].valid && tr[103].valid;
 
-		bool cuts_L = tr[2].valid && tr[3].valid && (!cut1_apply || cut1_val) && (!cut3_apply || cut3_val);
-		bool cuts_R = tr[102].valid && tr[103].valid && (!cut2_apply || cut2_val) && (!cut4_apply || cut4_val);
+		bool cuts_L = all_tracks_L && (!cut1_apply || cut1_val) && (!cut3_apply || cut3_val);
+		bool cuts_R = all_tracks_R && (!cut2_apply || cut2_val) && (!cut4_apply || cut4_val);
 
 		// increase counter
 		if (cuts_L || cuts_R)
@@ -165,17 +201,41 @@ int main()
 			for (unsigned int rpId : {2, 3, 102, 103})
 			{
 				bool left = ((rpId / 100) == 0);
-
-				ProtonData proton = ReconstructProton({{rpId, tr_al[rpId]}}, left);
-
-				if (!proton.valid)
-					continue;
-				
-				plots[mi][0].h_xi[rpId]->Fill(proton.xi);
-
 				bool cuts = (left) ? cuts_L : cuts_R;
+
+				const auto &track = tr_al[rpId];
+
+				ProtonData proton = ReconstructProton({{rpId, track}}, left);
+				
+				plots[mi][0].h_x[rpId]->Fill(track.x);
+				plots[mi][0].h2_y_vs_x[rpId]->Fill(track.x, track.y);
 				if (cuts)
-					plots[mi][1].h_xi[rpId]->Fill(proton.xi);
+				{
+					plots[mi][1].h_x[rpId]->Fill(track.x);
+					plots[mi][1].h2_y_vs_x[rpId]->Fill(track.x, track.y);
+				}
+
+				if (proton.valid)
+				{
+					plots[mi][0].h_xi[rpId]->Fill(proton.xi);
+
+					if (cuts)
+						plots[mi][1].h_xi[rpId]->Fill(proton.xi);
+				}
+			}
+
+			if (all_tracks_L)
+			{
+				plots[mi][0].h2_x_F_L_vs_x_N_L->Fill(tr_al[2].x, tr_al[3].x);
+				if (cuts_L)
+					plots[mi][1].h2_x_F_L_vs_x_N_L->Fill(tr_al[2].x, tr_al[3].x);
+			}
+
+			if (all_tracks_R)
+			{
+				plots[mi][0].h2_x_F_R_vs_x_N_R->Fill(tr_al[102].x, tr_al[103].x);
+				if (cuts_R)
+					plots[mi][1].h2_x_F_R_vs_x_N_R->Fill(tr_al[102].x, tr_al[103].x);
 			}
 		}
 	}
