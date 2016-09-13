@@ -114,7 +114,7 @@ for (int ai : alignments.keys)
 	NewRow();
 
 	NewPad(false);
-	label("{\SetFontSizesXX " + alignments[ai] + "}");
+	label(rotate(90)*Label("{\SetFontSizesXX " + alignments[ai] + "}"));
 
 	for (int rpi : rp_ids.keys)
 	{

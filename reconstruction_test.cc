@@ -42,6 +42,7 @@ struct PlotGroup
 	map<unsigned int, TH1D*> h_x;
 	map<unsigned int, TH2D*> h2_y_vs_x;
 	TH2D *h2_x_F_L_vs_x_N_L, *h2_x_F_R_vs_x_N_R;
+	TH2D *h2_xi_L_F_vs_xi_L_N, *h2_xi_R_F_vs_xi_R_N;
 
 	PlotGroup()
 	{
@@ -62,6 +63,9 @@ struct PlotGroup
 
 		h2_x_F_L_vs_x_N_L = new TH2D("", ";x_{N};x_{F}", 100, 0., 20., 100, 0., 20.);
 		h2_x_F_R_vs_x_N_R = new TH2D("", ";x_{N};x_{F}", 100, 0., 20., 100, 0., 20.);
+
+		h2_xi_L_F_vs_xi_L_N = new TH2D("", ";#xi_{N};#xi_{F}", 100, 0., 0.25, 100, 0., 0.25);
+		h2_xi_R_F_vs_xi_R_N = new TH2D("", ";#xi_{N};#xi_{F}", 100, 0., 0.25, 100, 0., 0.25);
 	}
 
 	void Write() const
@@ -89,6 +93,9 @@ struct PlotGroup
 
 		h2_x_F_L_vs_x_N_L->Write("h2_x_F_L_vs_x_N_L");
 		h2_x_F_R_vs_x_N_R->Write("h2_x_F_R_vs_x_N_R");
+
+		h2_xi_L_F_vs_xi_L_N->Write("h2_xi_L_F_vs_xi_L_N");
+		h2_xi_R_F_vs_xi_R_N->Write("h2_xi_R_F_vs_xi_R_N");
 	}
 };
 
@@ -198,6 +205,8 @@ int main()
 				tr_al = alignments[methods[mi]].Apply(tr);
 
 			// loop over RPs
+			map<unsigned int, ProtonData> perRPProtonReco;
+
 			for (unsigned int rpId : {2, 3, 102, 103})
 			{
 				bool left = ((rpId / 100) == 0);
@@ -206,6 +215,8 @@ int main()
 				const auto &track = tr_al[rpId];
 
 				ProtonData proton = ReconstructProton({{rpId, track}}, left);
+
+				perRPProtonReco[rpId] = proton;
 				
 				plots[mi][0].h_x[rpId]->Fill(track.x);
 				plots[mi][0].h2_y_vs_x[rpId]->Fill(track.x, track.y);
@@ -236,6 +247,36 @@ int main()
 				plots[mi][0].h2_x_F_R_vs_x_N_R->Fill(tr_al[102].x, tr_al[103].x);
 				if (cuts_R)
 					plots[mi][1].h2_x_F_R_vs_x_N_R->Fill(tr_al[102].x, tr_al[103].x);
+			}
+
+			{
+				ProtonData p_N = perRPProtonReco[2];
+				ProtonData p_F = perRPProtonReco[3];
+
+				double xi_N = (p_N.valid) ? p_N.xi : 0.;
+				double xi_F = (p_F.valid) ? p_F.xi : 0.;
+
+				if (p_N.valid || p_F.valid)
+				{
+					plots[mi][0].h2_xi_L_F_vs_xi_L_N->Fill(xi_N, xi_F);
+					if (cuts_L)
+						plots[mi][1].h2_xi_L_F_vs_xi_L_N->Fill(xi_N, xi_F);
+				}
+			}
+
+			{
+				ProtonData p_N = perRPProtonReco[102];
+				ProtonData p_F = perRPProtonReco[103];
+
+				double xi_N = (p_N.valid) ? p_N.xi : 0.;
+				double xi_F = (p_F.valid) ? p_F.xi : 0.;
+
+				if (p_N.valid || p_F.valid)
+				{
+					plots[mi][0].h2_xi_R_F_vs_xi_R_N->Fill(xi_N, xi_F);
+					if (cuts_R)
+						plots[mi][1].h2_xi_R_F_vs_xi_R_N->Fill(xi_N, xi_F);
+				}
 			}
 		}
 	}

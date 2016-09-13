@@ -48,6 +48,11 @@ string datasets[] = {
 	"run_physics_no_margin/fill_5265",
 	"run_physics_no_margin/fill_5266",
 	"run_physics_no_margin/fill_5267",
+	"run_physics_no_margin/fill_5274",
+	"run_physics_no_margin/fill_5275",
+	"run_physics_no_margin/fill_5276",
+	"run_physics_no_margin/fill_5277",
+	"run_physics_no_margin/fill_5279",
 };
 
 string ref_label[];
@@ -57,10 +62,10 @@ ref_label.push("10079");
 ref_label.push("10081");
 
 string methods[];
-mark method_markers[];
+pen method_pens[];
 
-//methods.push("method y"); method_markers.push(mCi+2pt);
-methods.push("method x"); method_markers.push(mCr+4pt);
+methods.push("method y"); method_pens.push(blue);
+methods.push("method x"); method_pens.push(red);
 
 string rps[], rp_labels[];
 real rp_shift_m[], rp_shift_no_m[];
@@ -71,7 +76,7 @@ rps.push("R_1_F"); rp_labels.push("R-210-fr-hr"); rp_shift_m.push(-2.96); rp_shi
 
 yTicksDef = RightTicks(0.2, 0.1);
 
-xSizeDef = 12cm;
+xSizeDef = 15cm;
 
 //----------------------------------------------------------------------------------------------------
 
@@ -138,7 +143,7 @@ for (int rpi : rps.keys)
 	{
 		write("    " + datasets[dsi]);
 
-		pen p = (find(datasets[dsi], "no_margin") == -1) ? blue : red;
+		mark m = (find(datasets[dsi], "no_margin") == -1) ? mSq+4pt+false : mCi+3pt;
 
 		for (int mi : methods.keys)
 		{
@@ -164,9 +169,11 @@ for (int rpi : rps.keys)
 
 			bool pointValid = (fabs(m_sh) > 0.01);
 
+			pen p =  method_pens[mi];
+
 			if (pointValid)
 			{
-				draw((x, m_sh), method_markers[mi]+p);
+				draw((x, m_sh), m + p);
 				draw((x, m_sh-u_sh)--(x, m_sh+u_sh), p);
 			}
 		}
@@ -174,7 +181,7 @@ for (int rpi : rps.keys)
 
 	xlimits(-1, datasets.length, Crop);
 
-	AttachLegend(replace(rp_labels[rpi], "_", "\_"));
+	AttachLegend("{\SetFontSizesXX " + rp_labels[rpi] + "}");
 }
 
 GShipout(hSkip=5mm, vSkip=1mm);
