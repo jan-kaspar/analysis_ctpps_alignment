@@ -13,10 +13,10 @@ void InitInputFiles()
 
 	input_files.clear();
 
-	std::string prefix = "root://eostotem.cern.ch//eos/totem/data/ctpps/reduction/version1/279823/";
+	std::string prefix = "root://eostotem.cern.ch//eos/totem/data/ctpps/reduction/version2/279823/";
 
 	//for (int idx = 0; idx <= 0; ++idx)
-	for (int idx : { 0, 1, 2, 3, 4, 5, 6 })
+	for (int idx : { 0, 1, 3, 4, 5, 6, 7 })
 	{
 		char buf[100];
 		sprintf(buf, "%i", idx);
