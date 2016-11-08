@@ -60,4 +60,39 @@ void InitFillInfoCollection()
 	fillInfoCollection.push_back(FillInfo(5038, 275656, 275659, "no_margin/fill_5038/method x"));
 	fillInfoCollection.push_back(FillInfo(5043, 275757, 275783, "no_margin/fill_5043/method x"));
 	fillInfoCollection.push_back(FillInfo(5045, 275828, 275847, "no_margin/fill_5045/method x"));
+	fillInfoCollection.push_back(FillInfo(5048, 275886, 275890, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5052, 275911, 275931, "TODO"));
+
+	fillInfoCollection.push_back(FillInfo(5261, 279760, 279767, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5264, 279794, 279794, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5265, 279823, 279823, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5266, 279841, 279841, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5267, 279844, 279865, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5274, 279931, 279931, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5275, 279966, 279966, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5276, 279975, 279975, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5277, 279993, 280024, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5279, 280187, 280194, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5287, 280327, 280364, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5288, 280383, 280385, "TODO"));
+
+	fillInfoCollection.push_back(FillInfo(5393, 282730, 282735, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5401, 282920, 282924, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5405, 283040, 283043, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5406, 283049, 283067, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5418, 283305, 283308, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5421, 283353, 283359, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5423, 283407, 283416, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5424, 283453, 283453, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5427, 283478, 283481, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5433, 283548, 283560, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5437, 283672, 283685, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5439, 283820, 283835, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5441, 283863, 283865, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5442, 283876, 283878, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5443, 283884, 283885, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5446, 283933, 283934, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5448, 283946, 283964, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5450, 284006, 284014, "TODO"));
+	fillInfoCollection.push_back(FillInfo(5451, 284025, 284044, "TODO"));
 }
