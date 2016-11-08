@@ -4,57 +4,57 @@ import pad_layout;
 string topDir = "../../";
 
 string datasets[] = {
-	"run_physics_margin/fill_4947",
-//	"run_physics_margin/fill_4953",
-//	"run_physics_margin/fill_4961",
-	"run_physics_margin/fill_4964",
+	"period1_physics_margin/fill_4947",
+//	"period1_physics_margin/fill_4953",
+//	"period1_physics_margin/fill_4961",
+	"period1_physics_margin/fill_4964",
 	
-//	"run_physics_no_margin/fill_4964",
-//	"run_physics_margin/fill_4976",
+//	"period1_physics/fill_4964",
+//	"period1_physics_margin/fill_4976",
 
-//	"run_physics_no_margin/fill_4985",
-	"run_physics_no_margin/fill_4988",
-//	"run_physics_no_margin/fill_4990",
-//	"run_physics_no_margin/fill_5005",
-//	"run_physics_no_margin/fill_5013",
-//	"run_physics_no_margin/fill_5017",
-//	"run_physics_no_margin/fill_5020",
-//	"run_physics_no_margin/fill_5021",
-//	"run_physics_no_margin/fill_5024",
-	"run_physics_no_margin/fill_5026",
-//	"run_physics_no_margin/fill_5027",
-//	"run_physics_no_margin/fill_5028",
-//	"run_physics_no_margin/fill_5029",
-//	"run_physics_no_margin/fill_5030",
-//	"run_physics_no_margin/fill_5038",
-//	"run_physics_no_margin/fill_5043",
-//	"run_physics_no_margin/fill_5045",
-	"run_physics_no_margin/fill_5048",
-//	"run_physics_no_margin/fill_5052",
+//	"period1_physics/fill_4985",
+	"period1_physics/fill_4988",
+//	"period1_physics/fill_4990",
+//	"period1_physics/fill_5005",
+//	"period1_physics/fill_5013",
+//	"period1_physics/fill_5017",
+//	"period1_physics/fill_5020",
+//	"period1_physics/fill_5021",
+//	"period1_physics/fill_5024",
+	"period1_physics/fill_5026",
+//	"period1_physics/fill_5027",
+//	"period1_physics/fill_5028",
+//	"period1_physics/fill_5029",
+//	"period1_physics/fill_5030",
+//	"period1_physics/fill_5038",
+//	"period1_physics/fill_5043",
+//	"period1_physics/fill_5045",
+	"period1_physics/fill_5048",
+//	"period1_physics/fill_5052",
 
-	"run_physics_no_margin/fill_5261",
-//	"run_physics_no_margin/fill_5264",
-	"run_physics_no_margin/fill_5265",
-	"run_physics_no_margin/fill_5266",
-	"run_physics_no_margin/fill_5267",
+	"period1_physics/fill_5261",
+//	"period1_physics/fill_5264",
+	"period1_physics/fill_5265",
+	"period1_physics/fill_5266",
+	"period1_physics/fill_5267",
 
-	"run_alignment/10077",
-//	"run_alignment/10081",
+	"period1_alignment/10077",
+//	"period1_alignment/10081",
 };
 
 string datasets[] = {
-	"run_physics_margin/fill_4947",
-//	"run_physics_margin/fill_4964",
+	"period1_physics_margin/fill_4947",
+//	"period1_physics_margin/fill_4964",
 
-	"run_physics_no_margin/fill_4988",
-	"run_physics_no_margin/fill_5026",
-	"run_physics_no_margin/fill_5048",
+	"period1_physics/fill_4988",
+	"period1_physics/fill_5026",
+	"period1_physics/fill_5048",
 
-	"run_physics_no_margin/fill_5261",
-//	"run_physics_no_margin/fill_5266",
+	"period1_physics/fill_5261",
+//	"period1_physics/fill_5266",
 
-	"run_alignment/10077",
-//	"run_alignment/10081",
+	"period1_alignment/10077",
+//	"period1_alignment/10081",
 };
 
 int rp_ids[];
@@ -124,7 +124,7 @@ for (int ai : alignments.keys)
 
 		for (int dsi : datasets.keys)
 		{
-			bool alignmentRun = (find(datasets[dsi], "run_alignment") != -1);
+			bool alignmentRun = (find(datasets[dsi], "period1_alignment") != -1);
 
 			string alignments_eff = alignments[ai];
 			if (alignmentRun)

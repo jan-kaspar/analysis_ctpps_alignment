@@ -4,9 +4,9 @@ import pad_layout;
 string topDir = "../../";
 
 string datasets[] = {
-	"run_alignment/10077",
-	"run_physics_margin/274199",
-	"run_physics_no_margin/274244",
+	"period1_alignment/10077",
+	"period1_physics_margin/274199",
+	"period1_physics/274244",
 };
 
 string dataset_labels[] = {

@@ -4,16 +4,16 @@ import pad_layout;
 string topDir = "../../";
 
 string datasets[] = {
-	"run_alignment/10077",
+	"period1_alignment/10077",
 
-	"run_physics_margin/fill_4947",
-	//"run_physics_margin/fill_4953",
-	"run_physics_no_margin/fill_4985",
-	"run_physics_no_margin/fill_5021",
-	"run_physics_no_margin/fill_5045",
+	"period1_physics_margin/fill_4947",
+	//"period1_physics_margin/fill_4953",
+	"period1_physics/fill_4985",
+	"period1_physics/fill_5021",
+	"period1_physics/fill_5045",
 
-	"run_physics_no_margin/fill_5261",
-	//"run_physics_no_margin/fill_5288",
+	"period1_physics/fill_5261",
+	//"period1_physics/fill_5288",
 };
 
 string quantities[] = {

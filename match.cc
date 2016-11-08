@@ -471,21 +471,21 @@ int main()
 	ref_ranges["L_1_N"] = SelectionRange(3.8, 12.5);
 	ref_ranges["R_1_N"] = SelectionRange(2.5, 11.0);
 	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
-	refInfo.push_back(ReferenceInfo("10077", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10077/", ref_ranges));
+	refInfo.push_back(ReferenceInfo("10077", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/period1_alignment/10077/", ref_ranges));
 
 	ref_ranges.clear();
 	ref_ranges["L_1_F"] = SelectionRange(4.0, 12.5);
 	ref_ranges["L_1_N"] = SelectionRange(4.4, 12.5);
 	ref_ranges["R_1_N"] = SelectionRange(3.0, 11.0);
 	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
-	refInfo.push_back(ReferenceInfo("10079", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10079/", ref_ranges));
+	refInfo.push_back(ReferenceInfo("10079", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/period1_alignment/10079/", ref_ranges));
 
 	ref_ranges.clear();
 	ref_ranges["L_1_F"] = SelectionRange(4.0, 12.5);
 	ref_ranges["L_1_N"] = SelectionRange(4.4, 12.5);
 	ref_ranges["R_1_N"] = SelectionRange(3.0, 11.0);
 	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
-	refInfo.push_back(ReferenceInfo("10081", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/run_alignment/10081/", ref_ranges));
+	refInfo.push_back(ReferenceInfo("10081", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/period1_alignment/10081/", ref_ranges));
 
 	// get input
 	TFile *f_in = new TFile("distributions.root");

@@ -3,7 +3,7 @@ import pad_layout;
 
 string topDir = "../../";
 
-string dataset = "run_alignment/10077";
+string dataset = "period1_alignment/10077";
 
 string selections[] = {
 	"before selection",

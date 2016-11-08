@@ -3,7 +3,7 @@ import pad_layout;
 
 string topDir = "../../";
 
-string dataset = "run_physics_no_margin/fill_4985";
+string dataset = "period1_physics/fill_4985";
 
 string rp = "L_1_N";
 
