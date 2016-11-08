@@ -38,25 +38,25 @@ string datasets[] = {
 
 string datasets[] = {
 	"run_alignment/10077",
-	"run_physics_margin/fill_4947",
+//	"run_physics_margin/fill_4947",
 };
 
 int rp_ids[];
 string rp_labels[];
 pen rp_pens[];
 
-rp_ids.push(3); rp_labels.push("L_1_F"); rp_pens.push(black);
-rp_ids.push(2); rp_labels.push("L_1_N"); rp_pens.push(red);
-rp_ids.push(102); rp_labels.push("R_1_N"); rp_pens.push(blue);
-rp_ids.push(103); rp_labels.push("R_1_F"); rp_pens.push(heavygreen);
+rp_ids.push(3); rp_labels.push("L-210-fr-hr"); rp_pens.push(black);
+rp_ids.push(2); rp_labels.push("L-210-nr-hr"); rp_pens.push(red);
+rp_ids.push(102); rp_labels.push("R-210-nr-hr"); rp_pens.push(blue);
+rp_ids.push(103); rp_labels.push("R-210-fr-hr"); rp_pens.push(heavygreen);
 
 string alignments[] = {
 //	"none",
 	"method x",
-	"method y",
+//	"method y",
 };
 
-string cut_option = "with cuts";
+string cut_option = "without cuts";
 
 xSizeDef = 10cm;
 xTicksDef = LeftTicks(0.05, 0.01);

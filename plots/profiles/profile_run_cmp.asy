@@ -5,14 +5,15 @@ string topDir = "../../";
 
 string datasets[] = {
 	"run_alignment/10077",
-	//"run_alignment/10079",
-	//"run_alignment/10080",
-	//"run_alignment/10081",
-	//"run_alignment/10082",
 
 	"run_physics_margin/fill_4947",
+	//"run_physics_margin/fill_4953",
+	"run_physics_no_margin/fill_4985",
+	"run_physics_no_margin/fill_5021",
+	"run_physics_no_margin/fill_5045",
 
-	"run_physics_no_margin/fill_4988",
+	"run_physics_no_margin/fill_5261",
+	//"run_physics_no_margin/fill_5288",
 };
 
 string quantities[] = {
@@ -86,7 +87,7 @@ for (int qi : quantities.keys)
 	}
 }
 
-NewRow();
+//NewRow();
 NewPad(false);
 add(f_leg);
 

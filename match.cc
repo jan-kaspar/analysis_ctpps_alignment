@@ -441,6 +441,11 @@ int main()
 	// apply settings
 	ApplySettings();
 
+	// TODO: do something
+	// override settings from parameters.h
+	selectionRangesX["R_1_N"].max = 14.;
+	selectionRangesX["R_1_F"].max = 13.;
+
 	// list of RPs and their settings
 	struct RPData
 	{
@@ -451,10 +456,10 @@ int main()
 	};
 
 	vector<RPData> rpData = {
-		{ "L_1_F", 3,   -4.7, -2.9, 10.7 },
-		{ "L_1_N", 2,   -3.5, -0.5, 11.0 },
-		{ "R_1_N", 102, -4.5, -2.6, 8.0 },
-		{ "R_1_F", 103, -4.1, -2.1, 9.0 }
+		{ "L_1_F", 3,   -4.5, -3.4, 10.7 },
+		{ "L_1_N", 2,   -4.0, -0.5, 11.0 },
+		{ "R_1_N", 102, -4.4, -2.9, 8.0 },
+		{ "R_1_F", 103, -4.1, -2.5, 9.0 }
 	};
 
 	// list of references

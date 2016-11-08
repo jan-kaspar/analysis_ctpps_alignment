@@ -53,6 +53,8 @@ string datasets[] = {
 	"run_physics_no_margin/fill_5276",
 	"run_physics_no_margin/fill_5277",
 	"run_physics_no_margin/fill_5279",
+	"run_physics_no_margin/fill_5287",
+	"run_physics_no_margin/fill_5288",
 };
 
 string ref_label[];

@@ -147,10 +147,10 @@ int main()
 	TFile *f_out = new TFile("distributions.root", "recreate");
 
 	// book histograms
-	TH2D *h2_y_vs_x_L_1_F_no_sel = new TH2D("h2_y_vs_x_L_1_F_no_sel", ";x;y", 100, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_L_1_N_no_sel = new TH2D("h2_y_vs_x_L_1_N_no_sel", ";x;y", 100, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_R_1_N_no_sel = new TH2D("h2_y_vs_x_R_1_N_no_sel", ";x;y", 100, 0., 20., 100, -15., +15.);
-	TH2D *h2_y_vs_x_R_1_F_no_sel = new TH2D("h2_y_vs_x_R_1_F_no_sel", ";x;y", 100, 0., 20., 100, -15., +15.);
+	TH2D *h2_y_vs_x_L_1_F_no_sel = new TH2D("h2_y_vs_x_L_1_F_no_sel", ";x;y", 400, 0., 20., 300, -15., +15.);
+	TH2D *h2_y_vs_x_L_1_N_no_sel = new TH2D("h2_y_vs_x_L_1_N_no_sel", ";x;y", 400, 0., 20., 300, -15., +15.);
+	TH2D *h2_y_vs_x_R_1_N_no_sel = new TH2D("h2_y_vs_x_R_1_N_no_sel", ";x;y", 400, 0., 20., 300, -15., +15.);
+	TH2D *h2_y_vs_x_R_1_F_no_sel = new TH2D("h2_y_vs_x_R_1_F_no_sel", ";x;y", 400, 0., 20., 300, -15., +15.);
 
 	TH2D *h2_x_L_1_F_vs_x_L_1_N = new TH2D("h2_x_L_1_F_vs_x_L_1_N", ";x_L_1_N;x_L_1_F", 100, 0., 20., 100, 0., 20.);
 	TProfile *p_x_L_1_F_vs_x_L_1_N = new TProfile("p_x_L_1_F_vs_x_L_1_N", ";x_L_1_N;x_L_1_F", 100, 0., 20.);
