@@ -21,7 +21,11 @@ map<unsigned int, TSpline3 *> m_s_x_to_xi;
 
 void InitReconstruction()
 {
-	TFile *f_in = TFile::Open("/afs/cern.ch/work/j/jkaspar/analyses/ctpps/optics/optics.root");
+	string file = "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/optics/Frici_2016_09_22/optics.root";
+
+	printf(">> ssing optics file:\n\t%s\n", file.c_str());
+
+	TFile *f_in = TFile::Open(file.c_str());
 
 	if (!f_in)
 	{
