@@ -441,11 +441,6 @@ int main()
 	// apply settings
 	ApplySettings();
 
-	// TODO: do something
-	// override settings from parameters.h
-	selectionRangesX["R_1_N"].max = 14.;
-	selectionRangesX["R_1_F"].max = 13.;
-
 	// list of RPs and their settings
 	struct RPData
 	{
@@ -469,22 +464,22 @@ int main()
 	ref_ranges.clear();
 	ref_ranges["L_1_F"] = SelectionRange(3.7, 12.5);
 	ref_ranges["L_1_N"] = SelectionRange(3.8, 12.5);
-	ref_ranges["R_1_N"] = SelectionRange(2.5, 11.0);
-	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
+	ref_ranges["R_1_N"] = SelectionRange(2.5, 12.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.5);
 	refInfo.push_back(ReferenceInfo("10077", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/period1_alignment/10077/", ref_ranges));
 
 	ref_ranges.clear();
 	ref_ranges["L_1_F"] = SelectionRange(4.0, 12.5);
 	ref_ranges["L_1_N"] = SelectionRange(4.4, 12.5);
-	ref_ranges["R_1_N"] = SelectionRange(3.0, 11.0);
-	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
+	ref_ranges["R_1_N"] = SelectionRange(3.0, 12.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.5);
 	refInfo.push_back(ReferenceInfo("10079", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/period1_alignment/10079/", ref_ranges));
 
 	ref_ranges.clear();
 	ref_ranges["L_1_F"] = SelectionRange(4.0, 12.5);
 	ref_ranges["L_1_N"] = SelectionRange(4.4, 12.5);
-	ref_ranges["R_1_N"] = SelectionRange(3.0, 11.0);
-	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.0);
+	ref_ranges["R_1_N"] = SelectionRange(3.0, 12.0);
+	ref_ranges["R_1_F"] = SelectionRange(3.0, 11.5);
 	refInfo.push_back(ReferenceInfo("10081", "/afs/cern.ch/work/j/jkaspar/analyses/ctpps/alignment/period1_alignment/10081/", ref_ranges));
 
 	// get input
