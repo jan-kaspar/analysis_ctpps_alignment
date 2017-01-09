@@ -9,6 +9,6 @@ void ApplySettings()
 
 	selectionRangesX["L_1_F"] = SelectionRange(9.2, 16.5);
 	selectionRangesX["L_1_N"] = SelectionRange(8.3, 15.7);
-	selectionRangesX["R_1_N"] = SelectionRange(7.7, 15.5);
-	selectionRangesX["R_1_F"] = SelectionRange(7.1, 15.0);
+	selectionRangesX["R_1_N"] = SelectionRange(12.5, 16.0);
+	selectionRangesX["R_1_F"] = SelectionRange(12.0, 15.1);
 }
