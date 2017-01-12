@@ -110,7 +110,7 @@ int main()
 	InitReconstruction();
 
 	AlignmentResultsCollection alignments;
-	alignments.Load("match.out");
+	alignments.Load("process_alignments.out");
 	//alignments.Write(stdout);
 
 	// get input
