@@ -1,118 +1,13 @@
 import root;
 import pad_layout;
+include "../fills_samples.asy";
 include "../io_alignment_format.asy";
 
 string topDir = "../../";
 
-struct FillData
-{
-	int fill;
-	string datasets[];
-};
-
-FillData fill_data[];
-
-void AddDataSet(string p)
-{
-	int fill = (int) substr(p, find(p, "fill_")+5, 4);
-
-	bool found = false;
-	for (FillData fd : fill_data)
-	{
-		if (fd.fill == fill)
-		{
-			found = true;
-			fd.datasets.push(p);
-		}
-	}
-
-	if (!found)
-	{
-		FillData fd;
-		fd.fill = fill;
-		fd.datasets.push(p);
-
-		fill_data.push(fd);
-	}
-}
-	
-// primary sample
-AddDataSet("period1_physics_margin/fill_4947");
-AddDataSet("period1_physics_margin/fill_4953");
-AddDataSet("period1_physics_margin/fill_4961");
-AddDataSet("period1_physics_margin/fill_4964");
-
-AddDataSet("period1_physics/fill_4964");
-AddDataSet("period1_physics_margin/fill_4976");
-
-AddDataSet("period1_physics/fill_4985");
-AddDataSet("period1_physics/fill_4988");
-AddDataSet("period1_physics/fill_4990");
-AddDataSet("period1_physics/fill_5005");
-AddDataSet("period1_physics/fill_5013");
-AddDataSet("period1_physics/fill_5017");
-AddDataSet("period1_physics/fill_5020");
-AddDataSet("period1_physics/fill_5021");
-AddDataSet("period1_physics/fill_5024");
-AddDataSet("period1_physics/fill_5026");
-AddDataSet("period1_physics/fill_5027");
-AddDataSet("period1_physics/fill_5028");
-AddDataSet("period1_physics/fill_5029");
-AddDataSet("period1_physics/fill_5030");
-AddDataSet("period1_physics/fill_5038");
-AddDataSet("period1_physics/fill_5043");
-AddDataSet("period1_physics/fill_5045");
-AddDataSet("period1_physics/fill_5048");
-AddDataSet("period1_physics/fill_5052");
-
-AddDataSet("period1_physics/fill_5261");
-AddDataSet("period1_physics/fill_5264");
-AddDataSet("period1_physics/fill_5265");
-AddDataSet("period1_physics/fill_5266");
-AddDataSet("period1_physics/fill_5267");
-AddDataSet("period1_physics/fill_5274");
-AddDataSet("period1_physics/fill_5275");
-AddDataSet("period1_physics/fill_5276");
-AddDataSet("period1_physics/fill_5277");
-AddDataSet("period1_physics/fill_5279");
-AddDataSet("period1_physics/fill_5287");
-AddDataSet("period1_physics/fill_5288");
-
-// secondary sample
-if (false)
-{
-	AddDataSet("period1_physics_margin_ss/fill_4947");
-	AddDataSet("period1_physics_margin_ss/fill_4961");
-	AddDataSet("period1_physics_margin_ss/fill_4976");
-	
-	AddDataSet("period1_physics_ss/fill_4985");
-	AddDataSet("period1_physics_ss/fill_4988");
-	AddDataSet("period1_physics_ss/fill_4990");
-	AddDataSet("period1_physics_ss/fill_5005");
-	AddDataSet("period1_physics_ss/fill_5013");
-	AddDataSet("period1_physics_ss/fill_5017");
-	AddDataSet("period1_physics_ss/fill_5020");
-	AddDataSet("period1_physics_ss/fill_5021");
-	AddDataSet("period1_physics_ss/fill_5024");
-	AddDataSet("period1_physics_ss/fill_5026");
-	AddDataSet("period1_physics_ss/fill_5027");
-	AddDataSet("period1_physics_ss/fill_5028");
-	AddDataSet("period1_physics_ss/fill_5029");
-	AddDataSet("period1_physics_ss/fill_5030");
-	AddDataSet("period1_physics_ss/fill_5038");
-	AddDataSet("period1_physics_ss/fill_5043");
-	AddDataSet("period1_physics_ss/fill_5045");
-	AddDataSet("period1_physics_ss/fill_5048");
-	AddDataSet("period1_physics_ss/fill_5052");
-	AddDataSet("period1_physics_ss/fill_5261");
-	AddDataSet("period1_physics_ss/fill_5267");
-	AddDataSet("period1_physics_ss/fill_5277");
-	AddDataSet("period1_physics_ss/fill_5279");
-	AddDataSet("period1_physics_ss/fill_5287");
-	AddDataSet("period1_physics_ss/fill_5288");
-}
-
 //----------------------------------------------------------------------------------------------------
+
+InitDataSets(secondary=false);
 
 string methods[];
 pen method_pens[];
@@ -196,7 +91,8 @@ for (int rpi : rps.keys)
 
 		for (int dsi : fill_data[fdi].datasets.keys)
 		{
-			string dataset = fill_data[fdi].datasets[dsi];
+			string dataset = fill_data[fdi].datasets[dsi].tag;
+			int dataset_idx = fill_data[fdi].datasets[dsi].idx;
 
 			write("        " + dataset);
 	

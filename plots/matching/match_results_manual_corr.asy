@@ -1,13 +1,42 @@
 import root;
 import pad_layout;
 include "../fills_samples.asy";
-include "../io_alignment_format.asy";
 
 string topDir = "../../";
 
 //----------------------------------------------------------------------------------------------------
 
+real al_corr[][];
+
+void AddAlCorrection(int fill, real corr_102, real corr_103)
+{
+	real a[];
+	a[102] = corr_102;
+	a[103] = corr_103;
+	al_corr[fill] = a;
+}
+
+AddAlCorrection(5261, 0.05, 0.1);
+AddAlCorrection(5265, 0.2, 0.1);
+AddAlCorrection(5266, 0.08, 0.05);
+AddAlCorrection(5267, 0.22, 0.12);
+AddAlCorrection(5274, 0.12, 0.1);
+AddAlCorrection(5275, 0.25, 0.2);
+AddAlCorrection(5276, 0.25, 0.2);
+AddAlCorrection(5277, 0.15, 0.1);
+AddAlCorrection(5279, 0.2, 0.1);
+AddAlCorrection(5287, 0.2, 0.15);
+AddAlCorrection(5288, 0.3, 0.25);
+
+//----------------------------------------------------------------------------------------------------
+
 InitDataSets(true);
+
+string ref_label[];
+
+ref_label.push("10077");
+ref_label.push("10079");
+ref_label.push("10081");
 
 string methods[];
 pen method_pens[];
@@ -42,16 +71,6 @@ string TickLabels(real x)
 xTicksDef = LeftTicks(rotate(90)*Label(""), TickLabels, Step=1, step=0);
 
 //----------------------------------------------------------------------------------------------------
-
-/*
-for (int rpi : rps.keys)
-{
-	NewPad(false);
-	label("{\SetFontSizesXX " + replace(rps[rpi], "_", "\_") + "}");
-}
-
-NewRow();
-*/
 
 for (int rpi : rps.keys)
 {
@@ -89,6 +108,13 @@ for (int rpi : rps.keys)
 	{
 		write(format("    %i", fill_data[fdi].fill));
 
+		int fill = fill_data[fdi].fill; 
+		int rp_id = rp_ids[rpi];
+
+		real corr = 0.;
+		if (al_corr.initialized(fill) && al_corr[fill].initialized(rp_id))
+			corr = al_corr[fill][rp_id];
+
 		for (int dsi : fill_data[fdi].datasets.keys)
 		{
 			string dataset = fill_data[fdi].datasets[dsi].tag;
@@ -97,48 +123,48 @@ for (int rpi : rps.keys)
 			write("        " + dataset);
 	
 			mark m = (find(dataset, "margin") != -1) ? mSq+4pt+false : mCi+3pt;
-
-			AlignmentResults arc[];
-			int ret = LoadAlignmentResults(topDir + dataset+"/process_alignments.out", arc);
-			if (ret != 0)
-				continue;
 	
 			for (int mi : methods.keys)
 			{
-				bool method_found = false;
-				AlignmentResults ar;
-				for (AlignmentResults ari : arc)
+				real S1=0, Ss=0, Su=0;
+	
+				for (int ri : ref_label.keys)
 				{
-					if (ari.label == methods[mi])
-					{
-						method_found = true;
-						ar = ari;
-						break;
-					}
+					RootObject obj = RootGetObject(topDir + dataset+"/match.root",
+						rps[rpi] + "/" + ref_label[ri] + "/" + methods[mi] + "/g_results", error = false);
+	
+					if (!obj.valid)
+						continue;
+	
+					real ax[] = { 0. };
+					real ay[] = { 0. };
+					obj.vExec("GetPoint", 0, ax, ay); real bsh = ay[0];
+					obj.vExec("GetPoint", 1, ax, ay); real bsh_unc = ay[0];
+		
+					S1 += 1;
+					Ss += bsh;		
+					Su += bsh_unc;		
 				}
+				
+				real x = fdi;
 
-				if (!method_found)
-					continue;
-
-				if (!ar.results.initialized(rp_ids[rpi]))
-					continue;
-
-				real v = ar.results[rp_ids[rpi]].sh_x;
-
-				bool point_valid = (fabs(v) > 1);
-
-				if (point_valid)
+				real m_sh = Ss / S1;
+				real u_sh = Su / S1;
+	
+				bool pointValid = (fabs(m_sh) > 0.01);
+	
+				pen p = StdPen(dataset_idx+1);
+	
+				if (pointValid)
 				{
-					pen p = StdPen(dataset_idx + 1);
-					draw((fdi, v), m + p);
+					draw((x, corr+m_sh), m + p);
+					draw((x, corr+m_sh-u_sh)--(x, corr+m_sh+u_sh), p);
 				}
 			}
 		}
 	}
 
 	xlimits(-1, fill_data.length, Crop);
-
-	//yaxis(XEquals(23.5, false), heavygreen);
 
 	AttachLegend("{\SetFontSizesXX " + rp_labels[rpi] + "}");
 }
@@ -150,7 +176,7 @@ NewPad(false);
 AddToLegend("main sample", red);
 AddToLegend("validation sample", blue);
 
-AttachLegend();
+AttachLegend("{\it with manual corrections}");
 
 //----------------------------------------------------------------------------------------------------
 
