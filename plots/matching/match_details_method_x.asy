@@ -6,10 +6,9 @@ string topDir = "../../";
 //string dataset = "period1_physics/fill_4964";
 //string dataset = "period1_physics/fill_5024";
 //string dataset = "period1_physics/fill_5052";
+string dataset = "period1_physics/fill_5267";
 
-string dataset = "period1_physics/fill_5261";
-
-string reference = "10081";
+string reference = "10077";
 
 string rps[] = {
 	"L_1_F",
@@ -18,6 +17,7 @@ string rps[] = {
 	"R_1_F",
 };
 
+xSizeDef = 7cm;
 ySizeDef = 5cm;
 
 //----------------------------------------------------------------------------------------------------
@@ -38,6 +38,7 @@ NewRow();
 for (int rpi : rps.keys)
 {
 	NewPad("$x\ung{mm}$", "entries (scaled)");
+	currentpad.xTicks = LeftTicks(2., 1.);
 	//currentpad.yTicks = RightTicks(0.5, 0.1);
 
 	string p_base = rps[rpi] + "/" + reference + "/method x/c_cmp|";
@@ -46,7 +47,7 @@ for (int rpi : rps.keys)
 	draw(RootGetObject(topDir + dataset+"/match.root", p_base + "h_test_aft"), "d0,eb", red);
 
 	//limits((2, 0), (15, 3), Crop);
-	xlimits(3, 15, Crop);
+	xlimits(3, 16, Crop);
 }
 
 NewRow();
@@ -94,6 +95,9 @@ for (int rpi : rps.keys)
 	yaxis(XEquals(sh_best - sh_best_unc, false), dashed);
 	yaxis(XEquals(sh_best, false), solid);
 	yaxis(XEquals(sh_best + sh_best_unc, false), dashed);
+
+	AddToLegend(format("%.2f", sh_best), black);
+	AttachLegend();
 }
 
 GShipout(hSkip=1mm, vSkip=1mm);
