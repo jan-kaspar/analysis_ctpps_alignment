@@ -4,7 +4,7 @@ import pad_layout;
 string topDir = "../../";
 
 string datasets[] = {
-	"period1_alignment/10077",
+//	"period1_alignment/10077",
 
 	"period1_physics_margin/fill_4947",
 	//"period1_physics_margin/fill_4953",
@@ -13,8 +13,17 @@ string datasets[] = {
 	"period1_physics/fill_5045",
 
 	"period1_physics/fill_5261",
-	//"period1_physics/fill_5288",
+	"period1_physics/fill_5288",
 };
+
+/*
+string datasets[] = {
+	"period2_physics/fill_5393",
+	"period2_physics/fill_5423",
+	"period2_physics/fill_5441",
+	"period2_physics/fill_5451",
+};
+*/
 
 string quantities[] = {
 //	"entries",
@@ -28,20 +37,23 @@ string quantity_labels[] = {
 //	"RMS of $y\ung{mm}$",
 };
 
-string rps[] = {
-	"L_1_F",
-	"L_1_N",
-	"R_1_N",
-	"R_1_F",
-};
+string rps[], rp_labels[];
+real rp_x_min[], rp_x_max[];
+
+rps.push("L_1_F"); rp_labels.push("L-210-fr-hr"); rp_x_min.push(8); rp_x_max.push(18);
+rps.push("L_1_N"); rp_labels.push("L-210-nr-hr"); rp_x_min.push(7); rp_x_max.push(15);
+rps.push("R_1_N"); rp_labels.push("R-210-nr-hr"); rp_x_min.push(7); rp_x_max.push(16.5);
+rps.push("R_1_F"); rp_labels.push("R-210-fr-hr"); rp_x_min.push(6.5); rp_x_max.push(16.5);
+
+yTicksDef = RightTicks(0.5, 0.1);
 
 //----------------------------------------------------------------------------------------------------
 
-NewPad(false);
+//NewPad(false);
 for (int rpi : rps.keys)
 {
 	NewPad(false);
-	label("{\SetFontSizesXX " + replace(rps[rpi], "_", "\_") + "}");
+	label("{\SetFontSizesXX " + replace(rp_labels[rpi], "_", "\_") + "}");
 }
 
 frame f_leg;
@@ -52,8 +64,8 @@ for (int qi : quantities.keys)
 
 	NewRow();
 
-	NewPad(false);
-	label("{\SetFontSizesXX " + replace(q, "_", "\_") + "}");
+	//NewPad(false);
+	//label("{\SetFontSizesXX " + replace(q, "_", "\_") + "}");
 
 	for (int rpi : rps.keys)
 	{
@@ -73,12 +85,15 @@ for (int qi : quantities.keys)
 				t = yscale(0.38) * shift(0.5, 0);
 			*/
 
+			TH1_x_min = rp_x_min[rpi];
+			TH1_x_max = rp_x_max[rpi];
+
 			RootGetObject(topDir + datasets[dsi]+"/distributions.root", "profiles/" + rps[rpi] + "/h_" + q);
 			draw(t, robj, "vl", p, replace(datasets[dsi], "_", "\_"));
 		}
 
 		if (q == "mean")
-			limits((0, -2), (20, +2), Crop);
+			limits((5, -1), (20, +1), Crop);
 
 		if (q == "stddev")
 			limits((0, 0), (20, +3), Crop);
