@@ -138,8 +138,6 @@ for (int rpi : rps.keys)
 
 	xlimits(-1, fill_data.length, Crop);
 
-	//yaxis(XEquals(23.5, false), heavygreen);
-
 	AttachLegend("{\SetFontSizesXX " + rp_labels[rpi] + "}");
 }
 
