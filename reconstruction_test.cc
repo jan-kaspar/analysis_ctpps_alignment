@@ -41,25 +41,24 @@ struct PlotGroup
 	map<unsigned int, TH1D*> h_xi;
 	map<unsigned int, TH1D*> h_x;
 	map<unsigned int, TH2D*> h2_y_vs_x;
+
+	map<unsigned int, TH1D*> h_th_x;
+	map<unsigned int, TH1D*> h_th_y;
+
 	TH2D *h2_x_F_L_vs_x_N_L, *h2_x_F_R_vs_x_N_R;
 	TH2D *h2_xi_L_F_vs_xi_L_N, *h2_xi_R_F_vs_xi_R_N;
 
 	PlotGroup()
 	{
-		h_xi[2] = new TH1D("", "", 200, 0., 0.2);
-		h_xi[3] = new TH1D("", "", 200, 0., 0.2);
-		h_xi[102] = new TH1D("", "", 200, 0., 0.2);
-		h_xi[103] = new TH1D("", "", 200, 0., 0.2);
+		for (int rpId : {2, 3, 102, 103})
+		{
+			h_xi[rpId] = new TH1D("", "", 200, 0., 0.2);
+			h_x[rpId] = new TH1D("", "", 200, 0., 20.);
+			h2_y_vs_x[rpId] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
 
-		h_x[2] = new TH1D("", "", 200, 0., 20.);
-		h_x[3] = new TH1D("", "", 200, 0., 20.);
-		h_x[102] = new TH1D("", "", 200, 0., 20.);
-		h_x[103] = new TH1D("", "", 200, 0., 20.);
-
-		h2_y_vs_x[2] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
-		h2_y_vs_x[3] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
-		h2_y_vs_x[102] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
-		h2_y_vs_x[103] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
+			h_th_x[rpId] = new TH1D("", "", 200, -0.02, +0.02);
+			h_th_y[rpId] = new TH1D("", "", 200, -0.02, +0.02);
+		}
 
 		h2_x_F_L_vs_x_N_L = new TH2D("", ";x_{N};x_{F}", 100, 0., 20., 100, 0., 20.);
 		h2_x_F_R_vs_x_N_R = new TH2D("", ";x_{N};x_{F}", 100, 0., 20., 100, 0., 20.);
@@ -70,24 +69,35 @@ struct PlotGroup
 
 	void Write() const
 	{
+		char buf[100];
+
 		for (const auto &it : h_xi)
 		{
-			char buf[100];
 			sprintf(buf, "h_xi_%u", it.first);
 			it.second->Write(buf);
 		}
 
 		for (const auto &it : h_x)
 		{
-			char buf[100];
 			sprintf(buf, "h_x_%u", it.first);
 			it.second->Write(buf);
 		}
 
 		for (const auto &it : h2_y_vs_x)
 		{
-			char buf[100];
 			sprintf(buf, "h2_y_vs_x_%u", it.first);
+			it.second->Write(buf);
+		}
+
+		for (const auto &it : h_th_x)
+		{
+			sprintf(buf, "h_th_x_%u", it.first);
+			it.second->Write(buf);
+		}
+
+		for (const auto &it : h_th_y)
+		{
+			sprintf(buf, "h_th_y_%u", it.first);
 			it.second->Write(buf);
 		}
 
@@ -126,7 +136,7 @@ int main()
 	vector<string> methods = {
 		"none",
 		"method x",
-		"method y",
+		//"method y",
 	};
 
 	// map: method idx, cuts on(1)/off(0) --> plots
@@ -213,6 +223,8 @@ int main()
 				bool cuts = (left) ? cuts_L : cuts_R;
 
 				const auto &track = tr_al[rpId];
+				if (!track.valid)
+					continue;
 
 				ProtonData proton = ReconstructProton({{rpId, track}}, left);
 
@@ -220,10 +232,15 @@ int main()
 				
 				plots[mi][0].h_x[rpId]->Fill(track.x);
 				plots[mi][0].h2_y_vs_x[rpId]->Fill(track.x, track.y);
+				plots[mi][0].h_th_x[rpId]->Fill(track.th_x);
+				plots[mi][0].h_th_y[rpId]->Fill(track.th_y);
+
 				if (cuts)
 				{
 					plots[mi][1].h_x[rpId]->Fill(track.x);
 					plots[mi][1].h2_y_vs_x[rpId]->Fill(track.x, track.y);
+					plots[mi][1].h_th_x[rpId]->Fill(track.th_x);
+					plots[mi][1].h_th_y[rpId]->Fill(track.th_y);
 				}
 
 				if (proton.valid)
