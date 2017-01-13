@@ -37,17 +37,19 @@ int main()
 	ApplySettings();
 
 	// define corrections
-	AddAlCorrection(5261, 0.05, 0.1);
-	AddAlCorrection(5265, 0.2, 0.1);
-	AddAlCorrection(5266, 0.08, 0.05);
+	AddAlCorrection(5261, 0.05, 0.05);
+	AddAlCorrection(5265, 0.15, 0.10);
+	AddAlCorrection(5266, 0.08, 0.00);
 	AddAlCorrection(5267, 0.22, 0.12);
-	AddAlCorrection(5274, 0.12, 0.1);
-	AddAlCorrection(5275, 0.25, 0.2);
-	AddAlCorrection(5276, 0.25, 0.2);
-	AddAlCorrection(5277, 0.15, 0.1);
-	AddAlCorrection(5279, 0.2, 0.1);
-	AddAlCorrection(5287, 0.2, 0.15);
-	AddAlCorrection(5288, 0.3, 0.25);
+
+	AddAlCorrection(5274, 0.12, 0.10);
+	AddAlCorrection(5275, 0.20, 0.10);
+	AddAlCorrection(5276, 0.18, 0.17);
+	AddAlCorrection(5277, 0.15, 0.05);
+
+	AddAlCorrection(5279, 0.15, 0.10);
+	AddAlCorrection(5287, 0.15, 0.15);
+	AddAlCorrection(5288, 0.28, 0.20);
 
 	// read in alignments
 	AlignmentResultsCollection alignments;
