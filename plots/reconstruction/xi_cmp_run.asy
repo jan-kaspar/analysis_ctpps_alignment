@@ -6,19 +6,19 @@ string topDir = "../../";
 string datasets[] = {
 	"period1_alignment/10077",	// reference
 
-//	"period1_physics_margin/fill_4947",
+	"period1_physics_margin/fill_4947",
 //	"period1_physics_margin/fill_4953",
 //	"period1_physics_margin/fill_4961",
 //	"period1_physics_margin/fill_4964",
 //	"period1_physics/fill_4964",
 //	"period1_physics_margin/fill_4976",
-//	"period1_physics/fill_4985",
+	"period1_physics/fill_4985",
 //	"period1_physics/fill_4988",
 //	"period1_physics/fill_4990",
 
 //	"period1_physics/fill_5005",
 //	"period1_physics/fill_5013",
-//	"period1_physics/fill_5017",
+	"period1_physics/fill_5017",
 //	"period1_physics/fill_5020",
 //	"period1_physics/fill_5021",
 //	"period1_physics/fill_5024",
@@ -26,7 +26,7 @@ string datasets[] = {
 //	"period1_physics/fill_5027",
 //	"period1_physics/fill_5028",
 //	"period1_physics/fill_5029",
-//	"period1_physics/fill_5030",
+	"period1_physics/fill_5030",
 //	"period1_physics/fill_5038",
 //	"period1_physics/fill_5043",
 //	"period1_physics/fill_5045",
@@ -36,29 +36,42 @@ string datasets[] = {
 //	"period1_physics/fill_5261",
 //	"period1_physics/fill_5264",
 //	"period1_physics/fill_5265",
-//	"period1_physics/fill_5266",
+//	"period1_physics/fill_5266",	//
 //	"period1_physics/fill_5267",
 //	"period1_physics/fill_5274",
 //	"period1_physics/fill_5275",
 //	"period1_physics/fill_5276",
-//	"period1_physics/fill_5277",
+//	"period1_physics/fill_5277",	//
 //	"period1_physics/fill_5279",
 //	"period1_physics/fill_5287",
-	"period1_physics/fill_5288",
+//	"period1_physics/fill_5288",
 
 //	"period1_alignment/10077",
 //	"period1_alignment/10081",
 };
+
+/*
+string datasets[] = {
+	"period1_alignment/10077",	// reference
+
+	"period1_physics/fill_5043",
+	//"period1_physics/fill_5045",
+	"period1_physics/fill_5048",
+	"period1_physics/fill_5265",
+	//"period1_physics/fill_5266",
+	"period1_physics/fill_5267",
+};
+*/
 
 int rp_ids[];
 string rp_labels[];
 real rp_norm_min[];
 real rp_norm_max[];
 
-rp_ids.push(3); rp_labels.push("L-210-fr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
-rp_ids.push(2); rp_labels.push("L-210-nr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
-rp_ids.push(102); rp_labels.push("R-210-nr-hr"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
-rp_ids.push(103); rp_labels.push("R-210-fr-hr"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
+rp_ids.push(3); rp_labels.push("L-210-fr-hr"); rp_norm_min.push(0.084); rp_norm_max.push(0.114);
+rp_ids.push(2); rp_labels.push("L-210-nr-hr"); rp_norm_min.push(0.083); rp_norm_max.push(0.113);
+rp_ids.push(102); rp_labels.push("R-210-nr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.140);
+rp_ids.push(103); rp_labels.push("R-210-fr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.145);
 
 string alignments[] = {
 //	"none",
@@ -98,6 +111,7 @@ real GetNormalisation(RootObject obj, real xi_min, real xi_max)
 
 //----------------------------------------------------------------------------------------------------
 
+/*
 NewPad(false);
 label(cut_option);
 
@@ -109,16 +123,22 @@ for (int rpi : rp_ids.keys)
 	NewPad(false);
 	label("{\SetFontSizesXX " + replace(rp_labels[rpi], "_", "\_") + "}");
 }
+*/
 
 for (int ai : alignments.keys)
 {
 	NewRow();
 
-	NewPad(false);
-	label("{\SetFontSizesXX " + alignments[ai] + "}");
+	//NewPad(false);
+	//label("{\SetFontSizesXX " + alignments[ai] + "}");
+
+	frame f_legend;
 
 	for (int rpi : rp_ids.keys)
 	{
+		if (rpi == 2)
+			NewRow();
+
 		NewPad("$\xi$");
 
 		for (int dsi : datasets.keys)
@@ -134,16 +154,19 @@ for (int ai : alignments.keys)
 
 			real norm = GetNormalisation(obj, rp_norm_min[rpi], rp_norm_max[rpi]);
 
-			pen p = (alignmentRun) ? black+2pt : StdPen(dsi+1);
+			pen p = (alignmentRun) ? black+2pt : StdPen(dsi);
 
 			draw(scale(1., 1./norm), obj, "vl", p, replace(datasets[dsi], "_", "\_"));
 		}
 
 		if (cropToDetails)
 			limits((x_min[rpi], y_min[rpi]), (x_max[rpi], y_max[rpi]), Crop);
-	}
 
-	frame f_legend = BuildLegend();
+		f_legend = BuildLegend();
+
+		currentpicture.legend.delete();
+		AttachLegend(rp_labels[rpi]);
+	}
 
 	NewPad(false);
 	attach(f_legend);

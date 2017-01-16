@@ -51,23 +51,22 @@ int rp_ids[];
 string rp_labels[];
 real rp_norm_min[];
 real rp_norm_max[];
+real rp_x_min[];
+real rp_x_max[];
 
-rp_ids.push(3); rp_labels.push("L-210-fr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
-rp_ids.push(2); rp_labels.push("L-210-nr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.115);
-rp_ids.push(102); rp_labels.push("R-210-nr-hr"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
-rp_ids.push(103); rp_labels.push("R-210-fr-hr"); rp_norm_min.push(0.095); rp_norm_max.push(0.160);
+rp_ids.push(3); rp_labels.push("L-210-fr-hr"); rp_norm_min.push(0.084); rp_norm_max.push(0.114); rp_x_min.push(0.02); rp_x_max.push(0.13);
+rp_ids.push(2); rp_labels.push("L-210-nr-hr"); rp_norm_min.push(0.083); rp_norm_max.push(0.113); rp_x_min.push(0.03); rp_x_max.push(0.13);
+rp_ids.push(102); rp_labels.push("R-210-nr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.145); rp_x_min.push(0.03); rp_x_max.push(0.16);
+rp_ids.push(103); rp_labels.push("R-210-fr-hr"); rp_norm_min.push(0.085); rp_norm_max.push(0.145); rp_x_min.push(0.02); rp_x_max.push(0.16);
 
 string alignment = "method x";
 
 string cut_option = "without cuts";
 
-real x_min[] = {0.05, 0.05, 0.05,  0.06};
-real x_max[] = {0.11, 0.11, 0.14,  0.14};
-real y_min[] = {0.03, 0.03, 0.015, 0.015};
-real y_max[] = {0.04, 0.04, 0.020, 0.020};
 
-xSizeDef = 15.5cm;
-xTicksDef = LeftTicks(0.005, 0.001);
+xSizeDef = 16cm;
+xTicksDef = LeftTicks(0.01, 0.002);
+//xTicksDef = LeftTicks(0.005, 0.001);
 
 //----------------------------------------------------------------------------------------------------
 
@@ -121,7 +120,7 @@ for (int dsi : datasets.keys)
 		DrawOne(dataset_ref, rpi, blue, "reference: " + dataset_ref);
 		DrawOne(datasets[dsi], rpi, red, datasets[dsi]);
 	
-		xlimits(0.02, 0.105, Crop);
+		xlimits(rp_x_min[rpi], rp_x_max[rpi], Crop);
 	}
 
 	AddToLegend("<(" + cut_option + ")");

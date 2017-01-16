@@ -49,6 +49,11 @@ string datasets[] = {
 //	"period1_physics_margin/fill_4953",
 //};
 
+string datasets[] = {
+	"period1_physics_margin/fill_4947",
+	"period1_physics/fill_5261",
+};
+
 string arm_tags[];
 string arm_labels[];
 
@@ -65,6 +70,8 @@ ySizeDef = 8cm;
 
 real xi_min = 0.03;
 real xi_max = 0.20;
+
+TH2_palette = Gradient(blue, heavygreen, yellow, red);
 
 //----------------------------------------------------------------------------------------------------
 
@@ -85,7 +92,8 @@ for (int dsi : datasets.keys)
 	NewRow();
 
 	NewPad(false);
-	label("{\SetFontSizesXX " + replace(datasets[dsi], "_", "\_") + "}");
+	string bits[] = split(replace(datasets[dsi], "_", "\_"), "/");
+	label("\vbox{\SetFontSizesXX\hbox{" + bits[0] + "}\hbox{" + bits[1] + "}}");
 
 	for (int ai : arm_tags.keys)
 	{
@@ -100,7 +108,7 @@ for (int dsi : datasets.keys)
 
 		draw(obj);
 
-		draw((xi_min, xi_min)--(xi_max, xi_max), dashed);
+		draw((xi_min, xi_min)--(xi_max, xi_max), black+2pt+dashed);
 	
 		limits((xi_min, xi_min), (xi_max, xi_max), Crop);
 	}
