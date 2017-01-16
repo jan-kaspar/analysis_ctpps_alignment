@@ -48,16 +48,20 @@ struct PlotGroup
 	TH2D *h2_x_F_L_vs_x_N_L, *h2_x_F_R_vs_x_N_R;
 	TH2D *h2_xi_L_F_vs_xi_L_N, *h2_xi_R_F_vs_xi_R_N;
 
+	map<unsigned int, TProfile*> p_y_vs_x;
+
 	PlotGroup()
 	{
-		for (int rpId : {2, 3, 102, 103})
+		for (int rpId : {3, 2, 102, 103})
 		{
-			h_xi[rpId] = new TH1D("", "", 200, 0., 0.2);
-			h_x[rpId] = new TH1D("", "", 200, 0., 20.);
+			h_xi[rpId] = new TH1D("", ";xi", 200, 0., 0.2);
+			h_x[rpId] = new TH1D("", ";x", 200, 0., 20.);
 			h2_y_vs_x[rpId] = new TH2D("", ";x;y", 100, 0., 20., 100, -15., +15.);
 
-			h_th_x[rpId] = new TH1D("", "", 200, -0.02, +0.02);
-			h_th_y[rpId] = new TH1D("", "", 200, -0.02, +0.02);
+			h_th_x[rpId] = new TH1D("", ";th_x", 200, -0.02, +0.02);
+			h_th_y[rpId] = new TH1D("", ";th_y", 200, -0.02, +0.02);
+
+			p_y_vs_x[rpId] = new TProfile("", ";x;y", 200, 0., 20.);
 		}
 
 		h2_x_F_L_vs_x_N_L = new TH2D("", ";x_{N};x_{F}", 100, 0., 20., 100, 0., 20.);
@@ -106,6 +110,12 @@ struct PlotGroup
 
 		h2_xi_L_F_vs_xi_L_N->Write("h2_xi_L_F_vs_xi_L_N");
 		h2_xi_R_F_vs_xi_R_N->Write("h2_xi_R_F_vs_xi_R_N");
+
+		for (const auto &it : p_y_vs_x)
+		{
+			sprintf(buf, "p_y_vs_x_%u", it.first);
+			it.second->Write(buf);
+		}
 	}
 };
 
@@ -234,6 +244,7 @@ int main()
 				plots[mi][0].h2_y_vs_x[rpId]->Fill(track.x, track.y);
 				plots[mi][0].h_th_x[rpId]->Fill(track.th_x);
 				plots[mi][0].h_th_y[rpId]->Fill(track.th_y);
+				plots[mi][0].p_y_vs_x[rpId]->Fill(track.x, track.y);
 
 				if (cuts)
 				{
@@ -241,6 +252,7 @@ int main()
 					plots[mi][1].h2_y_vs_x[rpId]->Fill(track.x, track.y);
 					plots[mi][1].h_th_x[rpId]->Fill(track.th_x);
 					plots[mi][1].h_th_y[rpId]->Fill(track.th_y);
+					plots[mi][1].p_y_vs_x[rpId]->Fill(track.x, track.y);
 				}
 
 				if (proton.valid)
