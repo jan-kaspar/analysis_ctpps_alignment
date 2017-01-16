@@ -7,7 +7,7 @@ string topDir = "../../";
 
 //----------------------------------------------------------------------------------------------------
 
-InitDataSets(secondary=false);
+InitDataSets("period1_ps");
 
 string methods[];
 pen method_pens[];
@@ -144,6 +144,9 @@ for (int rpi : rps.keys)
 //----------------------------------------------------------------------------------------------------
 
 NewPad(false);
+
+AddToLegend("run with margin", mSq+4pt+false);
+AddToLegend("run without margin", mCi+3pt);
 
 for (int mi : methods.keys)
 {

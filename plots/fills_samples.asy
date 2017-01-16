@@ -48,11 +48,24 @@ void AddDataSet(string p, int idx = 0)
 
 //----------------------------------------------------------------------------------------------------
 
-void InitDataSets(string period = "period1", bool secondary=true)
+void InitDataSets(string selection = "period1")
 {
-	if (period == "period1")
+	bool period1_ps = false;
+	bool period1_ss = false;
+	bool period2_ps = false;
+	bool period2_ss = false;
+
+	for (string bit : split(selection, ","))
 	{
-		// primary sample
+		if (bit == "period1_ps" || bit == "period1") period1_ps = true;
+		if (bit == "period1_ss" || bit == "period1") period1_ss = true;
+		if (bit == "period2_ps" || bit == "period2") period2_ps = true;
+		if (bit == "period2_ss" || bit == "period2") period2_ss = true;
+	}
+
+	// period1, primary sample
+	if (period1_ps)
+	{
 		AddDataSet("period1_physics_margin/fill_4947");
 		AddDataSet("period1_physics_margin/fill_4953");
 		AddDataSet("period1_physics_margin/fill_4961");
@@ -93,42 +106,44 @@ void InitDataSets(string period = "period1", bool secondary=true)
 		AddDataSet("period1_physics/fill_5279");
 		AddDataSet("period1_physics/fill_5287");
 		AddDataSet("period1_physics/fill_5288");
+	}
 	
-		if (secondary)
-		{
-			AddDataSet("period1_physics_margin_ss/fill_4947", 1);
-			AddDataSet("period1_physics_margin_ss/fill_4961", 1);
-			AddDataSet("period1_physics_margin_ss/fill_4976", 1);
-			
-			AddDataSet("period1_physics_ss/fill_4985", 1);
-			AddDataSet("period1_physics_ss/fill_4988", 1);
-			AddDataSet("period1_physics_ss/fill_4990", 1);
-			AddDataSet("period1_physics_ss/fill_5005", 1);
-			AddDataSet("period1_physics_ss/fill_5013", 1);
-			AddDataSet("period1_physics_ss/fill_5017", 1);
-			AddDataSet("period1_physics_ss/fill_5020", 1);
-			AddDataSet("period1_physics_ss/fill_5021", 1);
-			AddDataSet("period1_physics_ss/fill_5024", 1);
-			AddDataSet("period1_physics_ss/fill_5026", 1);
-			AddDataSet("period1_physics_ss/fill_5027", 1);
-			AddDataSet("period1_physics_ss/fill_5028", 1);
-			AddDataSet("period1_physics_ss/fill_5029", 1);
-			AddDataSet("period1_physics_ss/fill_5030", 1);
-			AddDataSet("period1_physics_ss/fill_5038", 1);
-			AddDataSet("period1_physics_ss/fill_5043", 1);
-			AddDataSet("period1_physics_ss/fill_5045", 1);
-			AddDataSet("period1_physics_ss/fill_5048", 1);
-			AddDataSet("period1_physics_ss/fill_5052", 1);
-			AddDataSet("period1_physics_ss/fill_5261", 1);
-			AddDataSet("period1_physics_ss/fill_5267", 1);
-			AddDataSet("period1_physics_ss/fill_5277", 1);
-			AddDataSet("period1_physics_ss/fill_5279", 1);
-			AddDataSet("period1_physics_ss/fill_5287", 1);
-			AddDataSet("period1_physics_ss/fill_5288", 1);
-		}
+	// period1, secondary sample
+	if (period1_ss)
+	{
+		AddDataSet("period1_physics_margin_ss/fill_4947", 1);
+		AddDataSet("period1_physics_margin_ss/fill_4961", 1);
+		AddDataSet("period1_physics_margin_ss/fill_4976", 1);
+		
+		AddDataSet("period1_physics_ss/fill_4985", 1);
+		AddDataSet("period1_physics_ss/fill_4988", 1);
+		AddDataSet("period1_physics_ss/fill_4990", 1);
+		AddDataSet("period1_physics_ss/fill_5005", 1);
+		AddDataSet("period1_physics_ss/fill_5013", 1);
+		AddDataSet("period1_physics_ss/fill_5017", 1);
+		AddDataSet("period1_physics_ss/fill_5020", 1);
+		AddDataSet("period1_physics_ss/fill_5021", 1);
+		AddDataSet("period1_physics_ss/fill_5024", 1);
+		AddDataSet("period1_physics_ss/fill_5026", 1);
+		AddDataSet("period1_physics_ss/fill_5027", 1);
+		AddDataSet("period1_physics_ss/fill_5028", 1);
+		AddDataSet("period1_physics_ss/fill_5029", 1);
+		AddDataSet("period1_physics_ss/fill_5030", 1);
+		AddDataSet("period1_physics_ss/fill_5038", 1);
+		AddDataSet("period1_physics_ss/fill_5043", 1);
+		AddDataSet("period1_physics_ss/fill_5045", 1);
+		AddDataSet("period1_physics_ss/fill_5048", 1);
+		AddDataSet("period1_physics_ss/fill_5052", 1);
+		AddDataSet("period1_physics_ss/fill_5261", 1);
+		AddDataSet("period1_physics_ss/fill_5267", 1);
+		AddDataSet("period1_physics_ss/fill_5277", 1);
+		AddDataSet("period1_physics_ss/fill_5279", 1);
+		AddDataSet("period1_physics_ss/fill_5287", 1);
+		AddDataSet("period1_physics_ss/fill_5288", 1);
 	}
 
-	if (period == "period2")
+	// period2, primary sample
+	if (period2_ps)
 	{
 		AddDataSet("period2_physics/fill_5393");
 		AddDataSet("period2_physics/fill_5401");

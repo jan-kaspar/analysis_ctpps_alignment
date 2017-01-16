@@ -6,7 +6,7 @@ string topDir = "../../";
 
 //----------------------------------------------------------------------------------------------------
 
-InitDataSets(true);
+InitDataSets("period1");
 
 string ref_label[];
 
@@ -144,6 +144,9 @@ for (int rpi : rps.keys)
 //----------------------------------------------------------------------------------------------------
 
 NewPad(false);
+
+AddToLegend("run with margin", mSq+4pt+false);
+AddToLegend("run without margin", mCi+3pt);
 
 AddToLegend("main sample", red);
 AddToLegend("validation sample", blue);

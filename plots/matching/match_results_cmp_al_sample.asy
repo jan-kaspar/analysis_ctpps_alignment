@@ -6,7 +6,7 @@ string topDir = "../../";
 
 //----------------------------------------------------------------------------------------------------
 
-InitDataSets(false);
+InitDataSets("period1_ps");
 
 string ref_label[];
 pen ref_pen[];
@@ -134,10 +134,15 @@ for (int rpi : rps.keys)
 //----------------------------------------------------------------------------------------------------
 
 NewPad(false);
+
+AddToLegend("run with margin", mSq+4pt+false);
+AddToLegend("run without margin", mCi+3pt);
+
 AddToLegend("<{\it TOTEM run in}");
 AddToLegend("<{\it calibration fill}");
 for (int ri : ref_label.keys)
 	AddToLegend(ref_label[ri], ref_pen[ri]);
+
 AttachLegend();
 
 GShipout(hSkip=5mm, vSkip=1mm);

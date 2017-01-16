@@ -6,13 +6,8 @@ string topDir = "../../";
 
 //----------------------------------------------------------------------------------------------------
 
-InitDataSets("period1", false);
-//InitDataSets("period2", false);
-
-// TODO
-//fill_data.delete();
-//AddDataSet("period1_physics/fill_5265");
-//AddDataSet("period2_physics/fill_5393");
+InitDataSets("period1_ps");
+//InitDataSets("period2_ps");
 
 string reco_dir = "none/without cuts";
 
