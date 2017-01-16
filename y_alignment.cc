@@ -31,28 +31,35 @@ void DoYAlignment(TProfile *p, const SelectionRange &range, double &result, doub
 {
 	printf("range: min = %.2f, max = %.2f\n", range.min, range.max);
 
-	// do fit
+	// do main fit
 	ff_pol1->SetParameters(0., 0.);
 	p->Fit(ff_pol1, "", "", range.min, range.max);
 
-	// save fit plot
-	p->Write();
-
-	// save result
 	result = ff_pol1->GetParameter(0);
-
 	double fit_unc = ff_pol1->GetParError(0);
-	double x_unc = 150E-3;	// in mm
-	double x_scale_unc = ff_pol1->GetParameter(1) * x_unc;
-	double tot_unc = sqrt(fit_unc*fit_unc + x_scale_unc*x_scale_unc);
 
-	unc = tot_unc;
+	double slope = ff_pol1->GetParameter(1);
+
+	// save main fit
+	p->Write("p_y_vs_x");
+
+	// secondary fit
+	ff_pol1->SetParameters(0., 0.);
+	p->Fit(ff_pol1, "", "", range.min+1, range.max-1);
+
+	// determine uncertainty
+	double x_unc = 150E-3;	// in mm
+	double x_scale_unc = slope * x_unc;
+	double range_unc = fabs(result - ff_pol1->GetParameter(0));
+
+	unc = sqrt(fit_unc*fit_unc + x_scale_unc*x_scale_unc + range_unc*range_unc);
 
 	// print results
 	printf("y(x=0) = %.3f mm\n", result);
 	printf("    fit uncertainty = %.3f mm\n", fit_unc);
 	printf("    uncertainty from x scale = %.3f mm\n", x_scale_unc);
-	printf("    total uncertainty = %.3f mm\n", tot_unc);
+	printf("    uncertainty from fit range = %.3f mm\n", range_unc);
+	printf("    total uncertainty = %.3f mm\n", unc);
 }
 
 //----------------------------------------------------------------------------------------------------
