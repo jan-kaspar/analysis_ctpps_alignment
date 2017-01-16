@@ -1,6 +1,7 @@
 struct AlignmentResult
 {
-	real sh_x;
+	real sh_x, sh_x_unc;
+	real sh_y, sh_y_unc;
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -101,6 +102,24 @@ int LoadAlignmentResults(string fn, AlignmentResults arc[])
 			if (d[0] == "sh_x")
 			{
 				ar.sh_x = atof(d[1]);
+				continue;
+			}
+
+			if (d[0] == "sh_x_unc")
+			{
+				ar.sh_x_unc = atof(d[1]);
+				continue;
+			}
+
+			if (d[0] == "sh_y")
+			{
+				ar.sh_y = atof(d[1]);
+				continue;
+			}
+
+			if (d[0] == "sh_y_unc")
+			{
+				ar.sh_y_unc = atof(d[1]);
 				continue;
 			}
 
