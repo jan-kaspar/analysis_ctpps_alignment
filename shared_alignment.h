@@ -1,18 +1,22 @@
+#include <cstring>
+
 using namespace std;
 
 //----------------------------------------------------------------------------------------------------
 
 struct AlignmentResult
 {
-	double sh_x = 0.;		// mm
+	double sh_x, sh_x_unc;		// mm
+	double sh_y, sh_y_unc;		// mm
 
-	AlignmentResult(double _sh_x=0.) : sh_x(_sh_x)
+	AlignmentResult(double _sh_x=0., double _sh_x_unc=0., double _sh_y=0., double _sh_y_unc=0.) :
+		sh_x(_sh_x), sh_x_unc(_sh_x_unc), sh_y(_sh_y), sh_y_unc(_sh_y_unc)
 	{
 	}
 
 	void Write(FILE *f) const
 	{
-		fprintf(f, "sh_x=%.3f\n", sh_x);
+		fprintf(f, "sh_x=%.3f,sh_x_unc=%.3f,sh_y=%.3f,sh_y_unc=%.3f\n", sh_x, sh_x_unc, sh_y, sh_y_unc);
 	}
 };
 
@@ -66,6 +70,24 @@ struct AlignmentResults : public map<unsigned int, AlignmentResult>
 			if (strcmp(s_key, "sh_x") == 0)
 			{
 				result.sh_x = atof(s_val);
+				continue;
+			}
+
+			if (strcmp(s_key, "sh_x_unc") == 0)
+			{
+				result.sh_x_unc = atof(s_val);
+				continue;
+			}
+
+			if (strcmp(s_key, "sh_y") == 0)
+			{
+				result.sh_y = atof(s_val);
+				continue;
+			}
+
+			if (strcmp(s_key, "sh_y_unc") == 0)
+			{
+				result.sh_y_unc = atof(s_val);
 				continue;
 			}
 
