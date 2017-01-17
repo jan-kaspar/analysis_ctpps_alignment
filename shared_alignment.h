@@ -120,6 +120,7 @@ struct AlignmentResults : public map<unsigned int, AlignmentResult>
 			}
 
 			it.second.x += ait->second.sh_x;
+			it.second.y -= ait->second.sh_y;
 		}
 
 		return output;
