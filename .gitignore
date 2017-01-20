@@ -8,6 +8,7 @@
 *.out
 
 .*
+!.gitignore
 
 digi_test/distributions
 reduction
