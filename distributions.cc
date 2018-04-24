@@ -100,8 +100,8 @@ void WriteCutPlot(TH2D *h, double a, double c, double si, const string &label)
 
 	h->Draw("colz");
 
-	double x_min = -20.;
-	double x_max = +20.;
+	double x_min = -30.;
+	double x_max = +30.;
 
 	TGraph *g_up = new TGraph();
 	g_up->SetName("g_up");
@@ -152,12 +152,12 @@ int main()
 	TH2D *h2_y_vs_x_R_1_N_no_sel = new TH2D("h2_y_vs_x_R_1_N_no_sel", ";x;y", 400, 0., 20., 300, -15., +15.);
 	TH2D *h2_y_vs_x_R_1_F_no_sel = new TH2D("h2_y_vs_x_R_1_F_no_sel", ";x;y", 400, 0., 20., 300, -15., +15.);
 
-	TH2D *h2_x_L_1_F_vs_x_L_1_N = new TH2D("h2_x_L_1_F_vs_x_L_1_N", ";x_L_1_N;x_L_1_F", 100, 0., 20., 100, 0., 20.);
+	TH2D *h2_x_L_1_F_vs_x_L_1_N = new TH2D("h2_x_L_1_F_vs_x_L_1_N", ";x_L_1_N;x_L_1_F", 100, 0., 30., 100, 0., 30.);
 	TProfile *p_x_L_1_F_vs_x_L_1_N = new TProfile("p_x_L_1_F_vs_x_L_1_N", ";x_L_1_N;x_L_1_F", 100, 0., 20.);
 	TH1D *h_q_cut1_before = new TH1D("h_q_cut1_before", ";cq1", 400, -2., 2.); h_q_cut1_before->SetLineColor(2);
 	TH1D *h_q_cut1_after = new TH1D("h_q_cut1_after", ";cq1", 400, -2., 2.); h_q_cut1_after->SetLineColor(4);
 
-	TH2D *h2_x_R_1_F_vs_x_R_1_N = new TH2D("h2_x_R_1_F_vs_x_R_1_N", ";x_R_1_N;x_R_1_F", 100, 0., 20., 100, 0., 20.);
+	TH2D *h2_x_R_1_F_vs_x_R_1_N = new TH2D("h2_x_R_1_F_vs_x_R_1_N", ";x_R_1_N;x_R_1_F", 100, 0., 30., 100, 0., 30.);
 	TProfile *p_x_R_1_F_vs_x_R_1_N = new TProfile("p_x_R_1_F_vs_x_R_1_N", ";x_R_1_N;x_R_1_F", 100, 0., 20.);
 	TH1D *h_q_cut2_before = new TH1D("h_q_cut2_before", ";cq2", 400, -2., 2.); h_q_cut2_before->SetLineColor(2);
 	TH1D *h_q_cut2_after = new TH1D("h_q_cut2_after", ";cq2", 400, -2., 2.); h_q_cut2_after->SetLineColor(4);
