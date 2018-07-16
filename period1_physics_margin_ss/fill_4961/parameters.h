@@ -2,6 +2,8 @@ void ApplySettings()
 {
 	lhc_fill = 4961;
 
+	rps_have_margin = true;
+
 	cut1_a = -1.009; cut1_c = -2.348; cut1_si = 0.20;
 	cut2_a = -0.974; cut2_c = +0.491; cut2_si = 0.20;
 	cut3_a = -1.154; cut3_c = +1.235; cut3_si = 0.15;

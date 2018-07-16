@@ -22,6 +22,8 @@ struct SelectionRange
 
 unsigned int lhc_fill = 0;
 
+bool rps_have_margin = false;
+
 bool alignment_run = false;
 
 double n_si = 3.;
