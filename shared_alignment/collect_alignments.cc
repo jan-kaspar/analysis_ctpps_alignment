@@ -3,7 +3,7 @@
 
 int main()
 {
-	// define input
+	// define datasets
 	vector<string> input_dirs = {
 		"period1_physics_margin/fill_4947",
 		"period1_physics_margin/fill_4953",
@@ -44,6 +44,15 @@ int main()
 		"period1_physics/fill_5287",
 		"period1_physics/fill_5288",
 	};
+
+	// define input 
+	const string file_x = "process_alignments.out";
+	const string tag_x = "method x";
+	
+	const string file_y = "y_alignment.out";
+	const string tag_y = "y alignment";
+
+	const string output_tag = "2017_01_17";
 	
 	// collection
 	AlignmentResultsCollection output;
@@ -53,7 +62,7 @@ int main()
 	{
 		// get horizontal alignment
 		AlignmentResultsCollection input_x;
-		string fn_x = "../" + dir + "/process_alignments.out";
+		string fn_x = "../" + dir + "/" + file_x;
 		int error_x = input_x.Load(fn_x);
 		if (error_x != 0)
 		{
@@ -61,16 +70,16 @@ int main()
 			continue;
 		}
 
-		auto it_x = input_x.find("method x");
+		auto it_x = input_x.find(tag_x);
 		if (it_x == input_x.end())
 		{
-			printf("ERROR: can't get result 'method x' from file '%s'.\n", fn_x.c_str());
+			printf("ERROR: can't get result '%s' from file '%s'.\n", tag_x.c_str(), fn_x.c_str());
 			continue;
 		}
 
 		// get vertical alignment
 		AlignmentResultsCollection input_y;
-		string fn_y = "../" + dir + "/y_alignment.out";
+		string fn_y = "../" + dir + "/" + file_y;
 		int error_y = input_y.Load(fn_y);
 		if (error_y != 0)
 		{
@@ -78,10 +87,10 @@ int main()
 			continue;
 		}
 
-		auto it_y = input_y.find("y alignment");
+		auto it_y = input_y.find(tag_y);
 		if (it_y == input_y.end())
 		{
-			printf("ERROR: can't get result 'method x' from file '%s'.\n", fn_y.c_str());
+			printf("ERROR: can't get result '%s' from file '%s'.\n", tag_y.c_str(), fn_y.c_str());
 			continue;
 		}
 
@@ -118,7 +127,7 @@ int main()
 			ars_combined[rpId] = AlignmentResult(ar_x.sh_x, 150E-3, ar_y.sh_y, 100E-3);
 		}
 
-		output[dir + "/2017_01_17"] = ars_combined;
+		output[dir + "/" + output_tag] = ars_combined;
 	}
 
 	output.Write("collect_alignments.out");
