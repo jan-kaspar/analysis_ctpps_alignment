@@ -3,17 +3,17 @@
 export HOME="/afs/cern.ch/exp/totem/scratch/jkaspar"
 
 # CASTOR configuration
-export RFIO_USE_CASTOR_V2=YES
-export STAGE_HOST=castorpublic
-export STAGE_SVCCLASS=default
+#export RFIO_USE_CASTOR_V2=YES
+#export STAGE_HOST=castorpublic
+#export STAGE_SVCCLASS=default
 
 # EOS configuration
-source "/afs/cern.ch/project/eos/installation/totem/etc/setup.sh"
-shopt -s expand_aliases
+#source "/afs/cern.ch/project/eos/installation/totem/etc/setup.sh"
+#shopt -s expand_aliases
 
 # CMSSW configuration
 source "/cvmfs/cms.cern.ch/cmsset_default.sh"
-cd "/afs/cern.ch/work/j/jkaspar/software/ctpps/production/CMSSW_8_0_12/src"
+cd "$CMSSW_BASE/src"
 cmsenv
 
 function SafeCmd()
