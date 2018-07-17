@@ -43,3 +43,6 @@ std::map<std::string, SelectionRange> selectionRangesX;
 
 // x range for y alignment (fit and extrapolation)
 std::map<std::string, SelectionRange> yAlignmentRangeX;
+
+// x range for relative near-far fine-tuning
+std::map<std::string, SelectionRange> RelAlignmentRangeX;

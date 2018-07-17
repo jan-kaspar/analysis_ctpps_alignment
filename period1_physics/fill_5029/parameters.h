@@ -16,4 +16,9 @@ void ApplySettings()
 	yAlignmentRangeX["L_1_N"] = SelectionRange(8.0, 12.0);
 	yAlignmentRangeX["R_1_N"] = SelectionRange(5.0, 10.5);
 	yAlignmentRangeX["R_1_F"] = SelectionRange(4.0, 11.0);
+
+	RelAlignmentRangeX["L_1_F"] = SelectionRange(8.0, -1.);
+	RelAlignmentRangeX["L_1_N"] = SelectionRange(8.0, -1.);
+	RelAlignmentRangeX["R_1_N"] = SelectionRange(5.0, -1.);
+	RelAlignmentRangeX["R_1_F"] = SelectionRange(4.0, -1.);
 }
