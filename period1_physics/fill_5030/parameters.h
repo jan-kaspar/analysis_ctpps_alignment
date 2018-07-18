@@ -19,6 +19,6 @@ void ApplySettings()
 
 	RelAlignmentRangeX["L_1_F"] = SelectionRange(8.5, -1.);
 	RelAlignmentRangeX["L_1_N"] = SelectionRange(8.5, -1.);
-	RelAlignmentRangeX["R_1_N"] = SelectionRange(5.0, -1.);
-	RelAlignmentRangeX["R_1_F"] = SelectionRange(4.0, -1.);
+	RelAlignmentRangeX["R_1_N"] = SelectionRange(6.0, 6.8);
+	RelAlignmentRangeX["R_1_F"] = SelectionRange(6.0, 6.8);
 }
